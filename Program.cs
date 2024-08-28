@@ -7,9 +7,7 @@ namespace SlotMachine
         static void Main(string[] args)
         {
             bool quit = false;
-            int playerBet = 0;
-            int playerChips = 0; // will set this at "0" for now 
-            int choice;
+            
 
             const int LOW = 0; // const low number 
             int HIGH = 9; // since 9 is the biggest "ones"
@@ -20,12 +18,11 @@ namespace SlotMachine
 
 
             int[,] array2d = new int[3, 3]; // 3x3 grid created 
+         
 
-
-            //create check for: (center lines) (horizontal lines) (vertical) (diagonal) 
 
             Console.Write(" PLace your wager ");
-
+            Console.WriteLine(randNumInArray); // (for testing purposes)
             int wager = 0;
             Console.ReadLine();
 
@@ -35,12 +32,14 @@ namespace SlotMachine
             {
                 for (int cols = 0; cols <array2d.GetLength(1); cols++)
                 {
-                    Console.Write(array2d[rows, cols] + " "); 
+                    Console.Write(array2d[rows,cols] + " "); // displays the array
+                    Console.Write(array2d[rows, cols] = randNumInArray);    // adding ranNumInArray value into elements
                 }
                 Console.WriteLine(); // this makes sure that everthing get printed on the next line.
             }
 
 
+            //create check for: (center lines) (horizontal lines) (vertical) (diagonal) 
         }
     }
 }
