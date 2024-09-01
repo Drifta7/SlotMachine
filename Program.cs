@@ -7,6 +7,8 @@ namespace SlotMachine
         static void Main(string[] args)
         {
             bool quit = false;
+            bool numbersHasWon = false;
+
             int PLAYER_MONEY = 500;
             int playerBet;
             int WINNING_BET = 10;
@@ -16,16 +18,15 @@ namespace SlotMachine
 
             char PlayerSelection = 'y';
 
-            int[,] Grid2D = new int[3, 3]; // 3x3 grid created 
-            int gridChecks(int[,] array, int x1, int y1, int x2, int y2, int x3, int y3)
+            int[,] Grid2D = new int[3, 3]; // 3x3 grid 
+
+            int gridChecks(int[,] Gridspace, int x1, int y1, int x2, int y2, int x3, int y3) // method or function for checking the grid
             {
-                if (array[x1, y1] == array[x2, y2] && array[x2, y2] == array[x3, y3])
+                if (Gridspace[x1, y1] == Gridspace[x2, y2] && Gridspace[x2, y2] == Gridspace[x3, y3])
                 {
 
                     return 1;
                 }
-
-
                 else
                 {
                     return 0; //
@@ -60,70 +61,89 @@ namespace SlotMachine
                 }
 
                 /////// horizontal checks///////
-                if (Grid2D[0, 0] == Grid2D[0, 1] && Grid2D[0, 1] == Grid2D[0, 2]) // 1st row (winning match)
+
+                int firstRowCheck = gridChecks(Grid2D, 0, 0, 0, 1, 0, 2);
+
+                if (firstRowCheck == 1) // checks the first row for matching numbers 
                 {
                     PLAYER_MONEY += (playerBet + WINNING_BET);
-                    Console.Write($"You've Won{WINNING_BET}");
-
+                    Console.Write($"You've Won {WINNING_BET}");
+                    numbersHasWon = true;
                 }
 
-                if (Grid2D[1, 0] == Grid2D[1, 1] && Grid2D[1, 1] == Grid2D[1, 2]) // 2nd row
+                int secondRowCheck = gridChecks(Grid2D, 1, 0, 1, 1, 1, 2);// checks for the secondRow for matching numbers 
+
+                if (secondRowCheck == 1)
                 {
                     PLAYER_MONEY += (playerBet + WINNING_BET);
-                    Console.Write($"You've Won{WINNING_BET}");
+                    Console.Write($"You've Won {WINNING_BET}");
+                    numbersHasWon = true;
                 }
 
+                int thirdRowCheck = gridChecks(Grid2D, 2, 0, 2, 1, 2, 2); // checks for the thirdRow for matching numbers 
 
-                if (Grid2D[2, 0] == Grid2D[2, 1] && Grid2D[2, 1] == Grid2D[2, 2]) // 3rd row
+                if (thirdRowCheck == 1)
                 {
                     PLAYER_MONEY += (playerBet + WINNING_BET);
-                    Console.Write($"You've Won{WINNING_BET}");
+                    Console.Write($"You've Won {WINNING_BET}");
+                    numbersHasWon = true;
                 }
 
 
                 //////////vertical checks ///////////////////
 
 
-                if (Grid2D[0, 0] == Grid2D[1, 0] && Grid2D[1, 0] == Grid2D[2, 0]) // 1st col
+                int firstColsCheck = gridChecks(Grid2D, 0, 0, 0, 1, 0, 2); // first column
+
+                if (firstColsCheck == 1)
                 {
                     PLAYER_MONEY += (playerBet + WINNING_BET + BONUS);
                     Console.Write($"You've Won: {WINNING_BET}");
+                    numbersHasWon = true;
                 }
 
 
-                if (Grid2D[0, 1] == Grid2D[1, 1] && Grid2D[1, 1] == Grid2D[2, 1]) // 2nd col
+                int secondColsCheck = gridChecks(Grid2D, 1, 0, 1, 1, 1, 2); // second column
+
+                if (secondColsCheck == 1)
                 {
                     PLAYER_MONEY += (playerBet + WINNING_BET + BONUS);
-                    Console.Write($"You've Won: {WINNING_BET}"); ;
+                    Console.Write($"You've Won: {WINNING_BET}");
+                    numbersHasWon = true;
                 }
 
 
-                if (Grid2D[2, 0] == Grid2D[1, 2] && Grid2D[1, 2] == Grid2D[2, 2]) // 3rd col
+
+                int thirdColsCheck = gridChecks(Grid2D, 2, 0, 2, 1, 2, 2); // third column
+
+                if (thirdColsCheck == 1)
                 {
                     PLAYER_MONEY += (playerBet + WINNING_BET + BONUS);
-                    Console.Write($"You've Won{WINNING_BET}");
+                    Console.Write($"You've Won: {WINNING_BET}");
+                    numbersHasWon = true;
                 }
 
+                int topLeftDiagnol = gridChecks(Grid2D, 0, 0, 1, 1, 2, 2);// top left diagnol check
 
-                ///// Diagonal check (left to bottom right) ////
-
-                if (Grid2D[0, 0] == Grid2D[1, 1] && Grid2D[1, 1] == Grid2D[2, 2])
+                if (topLeftDiagnol == 1)
                 {
                     PLAYER_MONEY += (playerBet + WINNING_BET + BONUS_2);
-                    Console.Write($"You've Won{WINNING_BET} +{BONUS_2}");
+                    Console.Write($" You've Won: {WINNING_BET}");
+                    numbersHasWon = true;
                 }
 
-                ///Diagonal (top right to bottom left) /////
-
-                if (Grid2D[0, 2] == Grid2D[1, 1] && Grid2D[1, 1] == Grid2D[2, 0])
+                int topRightDiagnol = gridChecks(Grid2D, 0, 2, 1, 1, 2, 0);
+                if (topRightDiagnol == 1)
                 {
                     PLAYER_MONEY += (playerBet + WINNING_BET + BONUS_2);
-                    Console.Write($"You've Won{WINNING_BET} + {BONUS_2}");
+                    Console.Write($" You've Won: {WINNING_BET}");
+                    numbersHasWon = true;
                 }
 
-                ///negative check////
-                ///
-
+                if (numbersHasWon == false)
+                {
+                    Console.WriteLine("no winnning numbers");
+                }
 
 
                 Console.WriteLine("Press any key to continue.....");
@@ -133,14 +153,13 @@ namespace SlotMachine
                 Console.WriteLine($"Balance is now: {PLAYER_MONEY}");
                 Console.Write("Would you like to bet again?");
 
-                PlayerSelection = (Convert.ToChar(Console.ReadLine()));
+                PlayerSelection = (Convert.ToChar(Console.ReadLine()));// gets user input for selection 
 
-
-                Console.WriteLine("place you bets.");
-                playerBet = Console.Read();
 
                 if (PlayerSelection == 'y' || PlayerSelection == 'Y')
                 {
+                    Console.WriteLine("place you bets.");
+                    playerBet = Console.Read();
                     PLAYER_MONEY -= playerBet;
                     Console.WriteLine($"You Now have {PLAYER_MONEY}");
 
