@@ -7,7 +7,7 @@ namespace SlotMachine
         static void Main(string[] args)
         {
             bool quit = false;
-            bool numbersHasWon = false;
+            bool numbersHasMactched = false;
 
             int PLAYER_MONEY = 500;
             int playerBet;
@@ -18,21 +18,8 @@ namespace SlotMachine
 
             char PlayerSelection = 'y';
 
+
             int[,] Grid2D = new int[3, 3]; // 3x3 grid 
-
-            int gridChecks(int[,] Gridspace, int x1, int y1, int x2, int y2, int x3, int y3) // method or function for checking the grid
-            {
-                if (Gridspace[x1, y1] == Gridspace[x2, y2] && Gridspace[x2, y2] == Gridspace[x3, y3])
-                {
-
-                    return 1;
-                }
-                else
-                {
-                    return 0; //
-                }
-            }
-
 
             Console.WriteLine($" You have ${PLAYER_MONEY}!");
             Console.Write(" Place your Bet ");
@@ -49,102 +36,68 @@ namespace SlotMachine
 
             while (!quit)
             {
-
-                for (int rows = 0; rows < Grid2D.GetLength(0); rows++)
+                // The 2 for loops creates the array grid for the slots game
+                for (int rows = 0; rows < Grid2D.GetLength(0); rows++) // loops through the rows 
                 {
-                    for (int cols = 0; cols < Grid2D.GetLength(1); cols++)
+                    for (int cols = 0; cols < Grid2D.GetLength(1); cols++) // loops through the columns
                     {
-                        int randNumInArray = range.Next(LOW, HIGH); // variable to store the random number 
+                        int randNumInArray = range.Next(LOW, HIGH); // variable to store the random number also so that "random" 'resets' after each loop 
                         Console.Write((Grid2D[rows, cols] = randNumInArray) + " ");    // adding ranNumInArray value into elements
                     }
                     Console.WriteLine(); // this makes sure that everthing get printed on the next line.
                 }
 
-                /////// horizontal checks///////
 
-                int firstRowCheck = gridChecks(Grid2D, 0, 0, 0, 1, 0, 2);
-
-                if (firstRowCheck == 1) // checks the first row for matching numbers 
+                // the  loops rows checks through the grid
+                for (int rows = 0; rows < Grid2D.GetLength(0); rows++) // this loops through the rows
                 {
-                    PLAYER_MONEY += (playerBet + WINNING_BET);
-                    Console.Write($"You've Won {WINNING_BET}");
-                    numbersHasWon = true;
+                    int checkEqualNumbers = Grid2D[rows, 0]; // starts with the first element 
+                    bool allMatch = true; // bools set
+                    for (int cols = 0; cols < Grid2D.GetLength(1); cols++)// this loops through cols
+                    {
+                        if (Grid2D[rows, cols] != checkEqualNumbers) //checks if numbers are not the same
+                        {
+                            allMatch = false;
+                            break; // breaks out of the loop if it finds a match
+                        }
+                    }
+
+                    if (allMatch) // if all number in a row match is true
+                    {
+                        numbersHasMactched = true;
+                        break;
+                    }
+                }
+                // loops cols checks through the grid
+                for (int cols = 0; cols < Grid2D.GetLength(0); cols++) // this loops through the rows
+                {
+                    int checkEqualNumbers = Grid2D[0, cols]; // this will check the first element of the columns
+                    bool allMatch = true; // bool set
+                    for (int rows = 0; rows < Grid2D.GetLength(1); rows++) // this loops through rows
+                    {
+                        if (Grid2D[rows, cols] != checkEqualNumbers) // checks if the numbers are not the same
+                        {
+                            allMatch = false;
+                            break;
+                        }
+                    }
+
+                    if (allMatch) //  if all number in a cols match is true
+                    {
+                        numbersHasMactched = true;
+                        break;
+                    }
                 }
 
-                int secondRowCheck = gridChecks(Grid2D, 1, 0, 1, 1, 1, 2);// checks for the secondRow for matching numbers 
-
-                if (secondRowCheck == 1)
+                if (numbersHasMactched) // declares if you've won or there are no matching numbers and 
                 {
-                    PLAYER_MONEY += (playerBet + WINNING_BET);
-                    Console.Write($"You've Won {WINNING_BET}");
-                    numbersHasWon = true;
+                    Console.WriteLine("You've have Won");
                 }
 
-                int thirdRowCheck = gridChecks(Grid2D, 2, 0, 2, 1, 2, 2); // checks for the thirdRow for matching numbers 
-
-                if (thirdRowCheck == 1)
+                else
                 {
-                    PLAYER_MONEY += (playerBet + WINNING_BET);
-                    Console.Write($"You've Won {WINNING_BET}");
-                    numbersHasWon = true;
+                    Console.WriteLine("the are no matching numbers ");
                 }
-
-
-                //////////vertical checks ///////////////////
-
-
-                int firstColsCheck = gridChecks(Grid2D, 0, 0, 0, 1, 0, 2); // first column
-
-                if (firstColsCheck == 1)
-                {
-                    PLAYER_MONEY += (playerBet + WINNING_BET + BONUS);
-                    Console.Write($"You've Won: {WINNING_BET}");
-                    numbersHasWon = true;
-                }
-
-
-                int secondColsCheck = gridChecks(Grid2D, 1, 0, 1, 1, 1, 2); // second column
-
-                if (secondColsCheck == 1)
-                {
-                    PLAYER_MONEY += (playerBet + WINNING_BET + BONUS);
-                    Console.Write($"You've Won: {WINNING_BET}");
-                    numbersHasWon = true;
-                }
-
-
-
-                int thirdColsCheck = gridChecks(Grid2D, 2, 0, 2, 1, 2, 2); // third column
-
-                if (thirdColsCheck == 1)
-                {
-                    PLAYER_MONEY += (playerBet + WINNING_BET + BONUS);
-                    Console.Write($"You've Won: {WINNING_BET}");
-                    numbersHasWon = true;
-                }
-
-                int topLeftDiagnol = gridChecks(Grid2D, 0, 0, 1, 1, 2, 2);// top left diagnol check
-
-                if (topLeftDiagnol == 1)
-                {
-                    PLAYER_MONEY += (playerBet + WINNING_BET + BONUS_2);
-                    Console.Write($" You've Won: {WINNING_BET}");
-                    numbersHasWon = true;
-                }
-
-                int topRightDiagnol = gridChecks(Grid2D, 0, 2, 1, 1, 2, 0);
-                if (topRightDiagnol == 1)
-                {
-                    PLAYER_MONEY += (playerBet + WINNING_BET + BONUS_2);
-                    Console.Write($" You've Won: {WINNING_BET}");
-                    numbersHasWon = true;
-                }
-
-                if (numbersHasWon == false)
-                {
-                    Console.WriteLine("no winnning numbers");
-                }
-
 
                 Console.WriteLine("Press any key to continue.....");
                 Console.ReadKey();
@@ -155,24 +108,21 @@ namespace SlotMachine
 
                 PlayerSelection = (Convert.ToChar(Console.ReadLine()));// gets user input for selection 
 
-
-                if (PlayerSelection == 'y' || PlayerSelection == 'Y')
+                if (PlayerSelection == 'y' || PlayerSelection == 'Y') // still an issue with this , It doesn't wait for the user input
                 {
                     Console.WriteLine("place you bets.");
                     playerBet = Console.Read();
                     PLAYER_MONEY -= playerBet;
-                    Console.WriteLine($"You Now have {PLAYER_MONEY}");
-
                 }
 
                 if (PlayerSelection == 'n' || PlayerSelection == 'N' || PLAYER_MONEY <= 0)
                 {
                     quit = true;
                     Console.WriteLine("Game Over");
-
                 }
             }
         }
     }
 }
+
 
