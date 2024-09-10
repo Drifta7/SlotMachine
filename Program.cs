@@ -10,20 +10,17 @@ namespace SlotMachine
             bool numbersHasMactched = false;
 
             int PLAYER_MONEY = 500;
-            int playerBet;
+            int playerBet = 0;
             const int WINNING_BET = 10;
 
-            const int BONUS = 50;
-            const int BONUS_2 = 75;
-
+            const int BONUS = 50; // use for diagonal wins 
+            const int BONUS_2 = 75; // use for diagonal wins
 
 
             int[,] Grid2D = new int[3, 3]; // 3x3 grid 
 
             Console.WriteLine($" You have ${PLAYER_MONEY}!"); // user prompt
             Console.Write(" Place your Bet ");
-
-
 
             Console.WriteLine($"Balance is now: {PLAYER_MONEY}"); // amount after the player has bet
 
@@ -33,7 +30,7 @@ namespace SlotMachine
             Random range = new Random(); // this is the random seed 
 
             int rowsGameMode_1; // this will select rows game mode  
-            int colsGameMode_2; // this will select cols  game mode
+            int colsGameMode_2; // this will select cols game mode
             int allModes; // this will play all modes 
 
             while (!quit)
@@ -54,7 +51,7 @@ namespace SlotMachine
                 for (int rows = 0; rows < Grid2D.GetLength(0); rows++) // this loops through the rows
                 {
                     int checkEqualNumbers = Grid2D[rows, 0]; // starts with the first element 
-                    bool allMatch = true; // bools set
+                    bool allMatch = true; // bool set to true
 
                     for (int cols = 0; cols < Grid2D.GetLength(1); cols++)// this loops through cols
                     {
@@ -67,9 +64,12 @@ namespace SlotMachine
 
                     if (allMatch) // if all number in a row match is true
                     {
-                        numbersHasMactched = true;
+                        //numbersHasMactched = true;
+                        PLAYER_MONEY += WINNING_BET + BONUS;
+                        Console.WriteLine($"You've Won Wining bet: ${WINNING_BET} + Bonus: ${BONUS}");
                         break;
                     }
+
                 }
                 // loops cols checks through the grid
                 for (int cols = 0; cols < Grid2D.GetLength(0); cols++) // this loops through the rows
@@ -88,43 +88,63 @@ namespace SlotMachine
 
                     if (allMatch) //  if all number in a cols match is true
                     {
-                        numbersHasMactched = true;
+                        //numbersHasMactched = true;
+                        PLAYER_MONEY += WINNING_BET + BONUS + playerBet;
+                        Console.WriteLine($"You've won ${WINNING_BET} + ${BONUS}");
                         break;
                     }
                 }
 
-                const int ADDEDUNIT = 1; // no magic numbers :D
+                ///////////////// Top Left diagonal check/////////////////
+                int firstDiagonalValue = Grid2D[0, 0]; // start the check with firstDiagonalValue in the loop 
+                bool allDiagonalMatch = true; // bool set to true
 
-                                         // Top Left diagonal check// doesn't work
-                for (int rows = 0; rows + ADDEDUNIT < Grid2D.GetLength(0); rows++)
+                for (int i = 0; i < Grid2D.GetLength(0); i++)
                 {
-                    int checkEqualNumbers = Grid2D[0, rows];
-                    bool allMatch = true;
-
-                    for (int cols = 0; cols + ADDEDUNIT < Grid2D.GetLength(1); cols++)
+                    if (Grid2D[i, i] != firstDiagonalValue) // compares each diagional element
                     {
-                        if (Grid2D[rows, cols] != checkEqualNumbers)
-                        {
-                            allMatch = false;
-                            break;
-                        }
-                    }
-
-                    if (allMatch) //  if all number in a diagonal match is true
-                    {
-                        numbersHasMactched = true;
+                        allDiagonalMatch = false; // if the first element doesnt work the loop will break
                         break;
                     }
 
                 }
+
+                if (allDiagonalMatch)
+                {
+                    PLAYER_MONEY += WINNING_BET + BONUS_2 + playerBet;
+                    Console.WriteLine($" You've won ${WINNING_BET} + ${BONUS_2}");
+                }
+               
+
+
+                //////////////////////Top Right diagonal check/////////////////////////
+
+                for (int i = 0; i < Grid2D.GetLength(0); i++)
+                {
+                    if (Grid2D[i, Grid2D.GetLength(1) - 1 - i] != firstDiagonalValue) // this starts at the end of the 1st diamension 
+                    {
+                        allDiagonalMatch = false;
+                        break;
+                    }
+                }
+                if (allDiagonalMatch)
+                {
+                    Console.WriteLine($"the number in the top right left do match, You've");
+                    PLAYER_MONEY += WINNING_BET + BONUS_2 + playerBet;
+                }
+                
+
+
+                ///////////////////////////////////////////////
                 if (numbersHasMactched) // declares if you've won or there are no matching numbers and 
                 {
-                    Console.WriteLine("You've have Won");
+                    Console.WriteLine($"You've have Won: ${WINNING_BET}");
+                    PLAYER_MONEY += WINNING_BET; // add wining numbers
                 }
 
                 else
                 {
-                    Console.WriteLine("the are no matching numbers ");
+                    Console.WriteLine("there are no matching numbers ");
                 }
 
                 Console.WriteLine("Press any key to continue.....");
@@ -139,7 +159,7 @@ namespace SlotMachine
 
                 if (PlayerToContinueSelection == "y")
                 {
-                    Console.WriteLine("place you bets.");
+                    Console.WriteLine("place you bets:");
                     playerBet = Convert.ToInt32(Console.ReadLine()); // gets the bet amount
                     PLAYER_MONEY -= playerBet;
                 }
@@ -147,11 +167,13 @@ namespace SlotMachine
                 if (PlayerToContinueSelection == "n" || PLAYER_MONEY <= 0) // check if player has selected n or had bet all of the money
                 {
                     quit = true;
-                    Console.WriteLine("Game Over bets are closed");
+                    Console.WriteLine($"Game Over bets are closed, Your total: {PLAYER_MONEY}");
                 }
             }
         }
     }
 }
+
+
 
 
