@@ -17,7 +17,7 @@ namespace SlotMachine
             const int BONUS_2 = 75; // use for diagonal wins
 
 
-            int[,] Grid2D = new int[3, 3]; // 3x3 grid 
+            int[,] gameSlotsGrid = new int[3, 3]; // 3x3 grid 
 
             Console.WriteLine($" You have ${PLAYER_MONEY}!"); // user prompt
             Console.Write(" Place your Bet ");
@@ -35,27 +35,27 @@ namespace SlotMachine
 
             while (!quit)
             {
-                //////// this nested loop displays the grid //////////////////
-                for (int rows = 0; rows < Grid2D.GetLength(0); rows++) // loops through the rows 
+                //////// the nested loop displays the grid //////////////////
+                for (int rows = 0; rows < gameSlotsGrid.GetLength(0); rows++) // loops through the rows 
                 {
-                    for (int cols = 0; cols < Grid2D.GetLength(1); cols++) // loops through the columns
+                    for (int cols = 0; cols < gameSlotsGrid.GetLength(1); cols++) // loops through the columns
                     {
                         int randNumInArray = range.Next(LOW, HIGH); // variable to store the random number also so that "random" 'resets' after each loop 
-                        Console.Write((Grid2D[rows, cols] = randNumInArray) + " ");    // adding ranNumInArray value into elements
+                        Console.Write((gameSlotsGrid[rows, cols] = randNumInArray) + " ");    // adding ranNumInArray value into elements
                     }
                     Console.WriteLine(); // this makes sure that everthing get printed on the next line.
                 }
                 /////////////////////////////////////////////////////////////////////////////
 
                 // the  loops rows checks through the grid
-                for (int rows = 0; rows < Grid2D.GetLength(0); rows++) // this loops through the rows
+                for (int rows = 0; rows < gameSlotsGrid.GetLength(0); rows++) // this loops through the rows
                 {
-                    int checkEqualNumbers = Grid2D[rows, 0]; // starts with the first element 
+                    int checkEqualNumbers = gameSlotsGrid[rows, 0]; // starts with the first element 
                     bool allMatch = true; // bool set to true
 
-                    for (int cols = 0; cols < Grid2D.GetLength(1); cols++)// this loops through cols
+                    for (int cols = 0; cols < gameSlotsGrid.GetLength(1); cols++)// this loops through cols
                     {
-                        if (Grid2D[rows, cols] != checkEqualNumbers) //checks if numbers are not the same
+                        if (gameSlotsGrid[rows, cols] != checkEqualNumbers) //checks if numbers are not the same
                         {
                             allMatch = false;
                             break; // breaks out of the loop if it finds a match
@@ -72,14 +72,14 @@ namespace SlotMachine
 
                 }
                 // loops cols checks through the grid
-                for (int cols = 0; cols < Grid2D.GetLength(0); cols++) // this loops through the rows
+                for (int cols = 0; cols < gameSlotsGrid.GetLength(0); cols++) // this loops through the rows
                 {
-                    int checkEqualNumbers = Grid2D[0, cols]; // this will check the first element of the columns
+                    int checkEqualNumbers = gameSlotsGrid[0, cols]; // this will check the first element of the columns
                     bool allMatch = true; // bool set
 
-                    for (int rows = 0; rows < Grid2D.GetLength(1); rows++) // this loops through rows
+                    for (int rows = 0; rows < gameSlotsGrid.GetLength(1); rows++) // this loops through rows
                     {
-                        if (Grid2D[rows, cols] != checkEqualNumbers) // checks if the numbers are not the same
+                        if (gameSlotsGrid[rows, cols] != checkEqualNumbers) // checks if the numbers are not the same
                         {
                             allMatch = false;
                             break;
@@ -96,12 +96,12 @@ namespace SlotMachine
                 }
 
                 ///////////////// Top Left diagonal check/////////////////
-                int firstDiagonalValue = Grid2D[0, 0]; // start the check with firstDiagonalValue in the loop 
+                int firstDiagonalValue = gameSlotsGrid[0, 0]; // start the check with firstDiagonalValue in the loop 
                 bool allDiagonalMatch = true; // bool set to true
 
-                for (int i = 0; i < Grid2D.GetLength(0); i++)
+                for (int i = 0; i < gameSlotsGrid.GetLength(0); i++)
                 {
-                    if (Grid2D[i, i] != firstDiagonalValue) // compares each diagional element
+                    if (gameSlotsGrid[i, i] != firstDiagonalValue) // compares each diagional element
                     {
                         allDiagonalMatch = false; // if the first element doesnt work the loop will break
                         break;
@@ -115,13 +115,11 @@ namespace SlotMachine
                     Console.WriteLine($" You've won ${WINNING_BET} + ${BONUS_2}");
                 }
                
-
-
                 //////////////////////Top Right diagonal check/////////////////////////
 
-                for (int i = 0; i < Grid2D.GetLength(0); i++)
+                for (int i = 0; i < gameSlotsGrid.GetLength(0); i++)
                 {
-                    if (Grid2D[i, Grid2D.GetLength(1) - 1 - i] != firstDiagonalValue) // this starts at the end of the 1st diamension 
+                    if (gameSlotsGrid[i, gameSlotsGrid.GetLength(1) - 1 - i] != firstDiagonalValue) // this starts at the end of the 1st diamension 
                     {
                         allDiagonalMatch = false;
                         break;
@@ -132,8 +130,6 @@ namespace SlotMachine
                     Console.WriteLine($"the number in the top right left do match, You've");
                     PLAYER_MONEY += WINNING_BET + BONUS_2 + playerBet;
                 }
-                
-
 
                 ///////////////////////////////////////////////
                 if (numbersHasMactched) // declares if you've won or there are no matching numbers and 
