@@ -16,11 +16,14 @@ namespace SlotMachine
             const int BONUS = 50; // use for diagonal wins 
             const int BONUS_2 = 75; // use for diagonal wins
 
-
+         
             int[,] gameSlotsGrid = new int[3, 3]; // 3x3 grid 
 
-            Console.WriteLine($" You have ${PLAYER_MONEY}!"); // user prompt
-            Console.Write(" Place your Bet ");
+            Console.WriteLine($"You have ${PLAYER_MONEY}!"); // user prompt
+            Console.Write("Place your Bet: "); playerBet = Console.Read(); // user inputs bet
+
+           
+            PLAYER_MONEY -= playerBet;
 
             Console.WriteLine($"Balance is now: {PLAYER_MONEY}"); // amount after the player has bet
 
@@ -29,9 +32,6 @@ namespace SlotMachine
 
             Random range = new Random(); // this is the random seed 
 
-            int rowsGameMode_1; // this will select rows game mode  
-            int colsGameMode_2; // this will select cols game mode
-            int allModes; // this will play all modes 
 
             while (!quit)
             {
@@ -127,12 +127,12 @@ namespace SlotMachine
                 }
                 if (allDiagonalMatch)
                 {
-                    Console.WriteLine($"the number in the top right left do match, You've");
+                    Console.WriteLine($"You've won {WINNING_BET} + {BONUS_2}");
                     PLAYER_MONEY += WINNING_BET + BONUS_2 + playerBet;
                 }
 
                 ///////////////////////////////////////////////
-                if (numbersHasMactched) // declares if you've won or there are no matching numbers and 
+                if (numbersHasMactched) 
                 {
                     Console.WriteLine($"You've have Won: ${WINNING_BET}");
                     PLAYER_MONEY += WINNING_BET; // add wining numbers
@@ -149,14 +149,14 @@ namespace SlotMachine
                 Console.Clear(); // reset the Grid.
 
                 Console.WriteLine($"Balance is now: {PLAYER_MONEY}");
-                Console.Write("Would you like to bet again? (Y/N)");
+                Console.WriteLine("Would you like to bet again? (Y/N)");
 
                 string PlayerToContinueSelection = Console.ReadLine().ToLower();// gets user input for selection 
 
                 if (PlayerToContinueSelection == "y")
                 {
                     Console.WriteLine("place you bets:");
-                    playerBet = Convert.ToInt32(Console.ReadLine()); // gets the bet amount
+                    playerBet = Convert.ToInt32(Console.ReadLine()); // gets the bet amount from user
                     PLAYER_MONEY -= playerBet;
                 }
 
