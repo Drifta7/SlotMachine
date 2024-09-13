@@ -16,13 +16,23 @@ namespace SlotMachine
             const int BONUS = 50; // use for diagonal wins 
             const int BONUS_2 = 75; // use for diagonal wins
 
-         
+
             int[,] gameSlotsGrid = new int[3, 3]; // 3x3 grid 
 
-            Console.WriteLine($"You have ${PLAYER_MONEY}!"); // user prompt
-            Console.Write("Place your Bet: "); playerBet = Console.Read(); // user inputs bet
+            int SELECT_ROWS_GAME = 1; // select for Rows
+            int SELECT_COLOUMNS_GAME = 2; //select for Columns
+            int SELECT_DIAGONAL_GAME = 3;// select for Diagonals
+          
 
-           
+            Console.WriteLine($"You have ${PLAYER_MONEY}!"); // user prompt
+
+            Console.WriteLine($"Select your Game: {SELECT_ROWS_GAME} {SELECT_COLOUMNS_GAME} {SELECT_DIAGONAL_GAME}");
+            int gameSelection = Convert.ToInt32(Console.ReadLine()); // input game selection
+            Console.Write("Place your Bet: ");
+
+            playerBet = Convert.ToInt32(Console.ReadLine()); // user inputs bet
+
+
             PLAYER_MONEY -= playerBet;
 
             Console.WriteLine($"Balance is now: {PLAYER_MONEY}"); // amount after the player has bet
@@ -47,105 +57,125 @@ namespace SlotMachine
                 }
                 /////////////////////////////////////////////////////////////////////////////
 
-                // the  loops rows checks through the grid
-                for (int rows = 0; rows < gameSlotsGrid.GetLength(0); rows++) // this loops through the rows
+                if (gameSelection == SELECT_ROWS_GAME)
                 {
-                    int checkEqualNumbers = gameSlotsGrid[rows, 0]; // starts with the first element 
-                    bool allMatch = true; // bool set to true
-
-                    for (int cols = 0; cols < gameSlotsGrid.GetLength(1); cols++)// this loops through cols
+                    bool numberHasMatched = false;
+                    // the  loops rows checks through the grid
+                    for (int rows = 0; rows < gameSlotsGrid.GetLength(0); rows++) // this loops through the rows
                     {
-                        if (gameSlotsGrid[rows, cols] != checkEqualNumbers) //checks if numbers are not the same
+                        int checkEqualNumbers = gameSlotsGrid[rows, 0]; // starts with the first element 
+                        bool allMatch = true; // bool set to true
+
+                        for (int cols = 0; cols < gameSlotsGrid.GetLength(1); cols++)// this loops through cols
                         {
-                            allMatch = false;
-                            break; // breaks out of the loop if it finds a match
+                            if (gameSlotsGrid[rows, cols] != checkEqualNumbers) //checks if numbers are not the same
+                            {
+                                allMatch = false;
+                                break; // breaks out of the loop if it finds a match
+                            }
+                        }
+
+                        if (allMatch) // if all number in a row match is true
+                        {
+                            numberHasMatched = true;
+                            PLAYER_MONEY += WINNING_BET + BONUS;
+                            Console.WriteLine($"You've Won Wining bet: ${WINNING_BET} + Bonus: ${BONUS}");
+                            break;
                         }
                     }
-
-                    if (allMatch) // if all number in a row match is true
+                    if (!numberHasMatched)
                     {
-                        //numbersHasMactched = true;
-                        PLAYER_MONEY += WINNING_BET + BONUS;
-                        Console.WriteLine($"You've Won Wining bet: ${WINNING_BET} + Bonus: ${BONUS}");
-                        break;
+                        Console.WriteLine("there are no matching row numbers ");
+                        Console.WriteLine("Press any key to continue.....");
+
                     }
-
                 }
-                // loops cols checks through the grid
-                for (int cols = 0; cols < gameSlotsGrid.GetLength(0); cols++) // this loops through the rows
-                {
-                    int checkEqualNumbers = gameSlotsGrid[0, cols]; // this will check the first element of the columns
-                    bool allMatch = true; // bool set
 
-                    for (int rows = 0; rows < gameSlotsGrid.GetLength(1); rows++) // this loops through rows
+                if (gameSelection == SELECT_COLOUMNS_GAME)
+                {
+                    bool numbersHasMatched = false;
+                    // loops cols checks through the grid
+                    for (int cols = 0; cols < gameSlotsGrid.GetLength(0); cols++) // this loops through the rows
                     {
-                        if (gameSlotsGrid[rows, cols] != checkEqualNumbers) // checks if the numbers are not the same
+                        int checkEqualNumbers = gameSlotsGrid[0, cols]; // this will check the first element of the columns
+                        bool allMatch = true; // bool set
+
+                        for (int rows = 0; rows < gameSlotsGrid.GetLength(1); rows++) // this loops through rows
                         {
-                            allMatch = false;
+                            if (gameSlotsGrid[rows, cols] != checkEqualNumbers) // checks if the numbers are not the same
+                            {
+                                allMatch = false;
+                                break;
+                            }
+                        }
+
+                        if (allMatch) // if all number in a cols match is true
+                        {
+                            numbersHasMatched = true;
+                            PLAYER_MONEY += WINNING_BET + BONUS + playerBet;
+                            Console.WriteLine($"You've won ${WINNING_BET} + ${BONUS}");
                             break;
                         }
                     }
 
-                    if (allMatch) //  if all number in a cols match is true
+                    if (!numbersHasMactched)
                     {
-                        //numbersHasMactched = true;
-                        PLAYER_MONEY += WINNING_BET + BONUS + playerBet;
-                        Console.WriteLine($"You've won ${WINNING_BET} + ${BONUS}");
-                        break;
+                        Console.WriteLine("there are no matching Column numbers ");
+                        Console.WriteLine("Press any key to continue.....");
                     }
                 }
-
                 ///////////////// Top Left diagonal check/////////////////
-                int firstDiagonalValue = gameSlotsGrid[0, 0]; // start the check with firstDiagonalValue in the loop 
-                bool allDiagonalMatch = true; // bool set to true
-
-                for (int i = 0; i < gameSlotsGrid.GetLength(0); i++)
+                if (gameSelection == SELECT_DIAGONAL_GAME)
                 {
-                    if (gameSlotsGrid[i, i] != firstDiagonalValue) // compares each diagional element
+                    int firstDiagonalValue = gameSlotsGrid[0, 0]; // start the check with firstDiagonalValue in the loop 
+                    bool allDiagonalMatch = true; // bool set to true
+
+                    for (int i = 0; i < gameSlotsGrid.GetLength(0); i++)
                     {
-                        allDiagonalMatch = false; // if the first element doesnt work the loop will break
-                        break;
+                        if (gameSlotsGrid[i, i] != firstDiagonalValue) // compares each diagional element
+                        {
+                            allDiagonalMatch = false; // if the first element doesnt work the loop will break
+                            break;
+                        }
+
                     }
 
-                }
-
-                if (allDiagonalMatch)
-                {
-                    PLAYER_MONEY += WINNING_BET + BONUS_2 + playerBet;
-                    Console.WriteLine($" You've won ${WINNING_BET} + ${BONUS_2}");
-                }
-               
-                //////////////////////Top Right diagonal check/////////////////////////
-
-                for (int i = 0; i < gameSlotsGrid.GetLength(0); i++)
-                {
-                    if (gameSlotsGrid[i, gameSlotsGrid.GetLength(1) - 1 - i] != firstDiagonalValue) // this starts at the end of the 1st diamension 
+                    if (allDiagonalMatch)
                     {
-                        allDiagonalMatch = false;
-                        break;
+                        PLAYER_MONEY += WINNING_BET + BONUS_2 + playerBet;
+                        Console.WriteLine($" You've won ${WINNING_BET} + ${BONUS_2}");
+                    }
+
+                    //////////////////////Top Right diagonal check/////////////////////////
+
+                    for (int i = 0; i < gameSlotsGrid.GetLength(0); i++)
+                    {
+                        if (gameSlotsGrid[i, gameSlotsGrid.GetLength(1) - 1 - i] != firstDiagonalValue) // this starts at the end of the 1st diamension 
+                        {
+                            allDiagonalMatch = false;
+                            break;
+                        }
+                    }
+                    if (allDiagonalMatch)
+                    {
+                        Console.WriteLine($"You've won {WINNING_BET} + {BONUS_2}");
+                        PLAYER_MONEY += WINNING_BET + BONUS_2 + playerBet;
+                    }
+
+                    ///////////////////////////////////////////////
+                    if (numbersHasMactched)
+                    {
+                        Console.WriteLine($"You've have Won: ${WINNING_BET}");
+                        PLAYER_MONEY += WINNING_BET; // add wining numbers
+                    }
+
+                    else
+                    {
+                        Console.WriteLine("there are no matching numbers ");
+                        Console.WriteLine("Press any key to continue.....");
                     }
                 }
-                if (allDiagonalMatch)
-                {
-                    Console.WriteLine($"You've won {WINNING_BET} + {BONUS_2}");
-                    PLAYER_MONEY += WINNING_BET + BONUS_2 + playerBet;
-                }
-
-                ///////////////////////////////////////////////
-                if (numbersHasMactched) 
-                {
-                    Console.WriteLine($"You've have Won: ${WINNING_BET}");
-                    PLAYER_MONEY += WINNING_BET; // add wining numbers
-                }
-
-                else
-                {
-                    Console.WriteLine("there are no matching numbers ");
-                }
-
-                Console.WriteLine("Press any key to continue.....");
                 Console.ReadKey();
-
                 Console.Clear(); // reset the Grid.
 
                 Console.WriteLine($"Balance is now: {PLAYER_MONEY}");
