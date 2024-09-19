@@ -44,7 +44,7 @@ namespace SlotMachine
                     else
                     {
                         Console.WriteLine(" ERROR! This is not the correct selection, Please try again"); // if the selection is not true
-                        string correctSelection = Console.ReadLine();
+                        userInput = Console.ReadLine();
                     }
                 }
                 else
@@ -81,14 +81,15 @@ namespace SlotMachine
                     for (int cols = 0; cols < gameSlotsGrid.GetLength(1); cols++) // loops through the columns
                     {
                         int randNumInArray = range.Next(LOW, HIGH); // variable to store the random number also so that "random" 'resets' after each loop 
-                        Console.Write((gameSlotsGrid[rows, cols] = randNumInArray) + " ");    // adding ranNumInArray value into elements
+                        Console.Write((gameSlotsGrid[rows, cols] = randNumInArray) + " ");    // adding ranNumInArray value into elements of the array
                     }
-                    Console.WriteLine(); // this makes sure that everthing get printed on the next line.
+                    Console.WriteLine(); // this makes sure that everything get printed on the next line.
                 }
                 /////////////////////////////////////////////////////////////////////////////
 
                 bool numbersHasMactched = false;
 
+                /////// Rows game check ///////////////
                 if (gameSelection == SELECT_ROWS_GAME)
                 {
                     bool numberHasMatched = false; // bool set to false
@@ -123,8 +124,8 @@ namespace SlotMachine
                         gameModeRestart = true;
                     }
                 }
-                /////////////////////////////////WORK ON THIS/////////////////////////////////////////
-                if (gameSelection == SELECT_CENTER_LINE_GAME) // fix this thisi
+                /////////////////////////////////CenterLine check/////////////////////////////////////////
+                if (gameSelection == SELECT_CENTER_LINE_GAME)
                 {
                     int firstCenterValue = gameSlotsGrid[1, 0];
                     bool CenterArrayMatches = true;
@@ -141,7 +142,7 @@ namespace SlotMachine
                         PLAYER_MONEY += WINNING_BET + BONUS + playerBet;
                         Console.WriteLine($"You've won ${WINNING_BET} + ${BONUS}");
                     }
-                    else 
+                    else
                     {
                         Console.WriteLine("The center numbers do not match");
                     }
