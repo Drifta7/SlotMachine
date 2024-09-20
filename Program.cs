@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace SlotMachine
 {
     class Program
@@ -9,10 +10,10 @@ namespace SlotMachine
             const int SELECT_ROWS_GAME = 1; // select for Rows
             const int SELECT_COLOUMNS_GAME = 2; //select for Columns
             const int SELECT_DIAGONAL_GAME = 3;// select for Diagonals
-            const int SELECT_CENTER_LINE_GAME = 4; // select Center roww
+            const int SELECT_CENTER_LINE_GAME = 4; // select Center row
 
-            const string PLAYER_TO_CONTINUE_ACCEPT = "Y";
-            const string PLAYER_TO_CONTINUE_DECLINE = "N";
+            const string PLAYER_TO_CONTINUE_ACCEPT = "y";
+            const string PLAYER_TO_CONTINUE_DECLINE = "n";
 
             const int WINNING_BET = 10;
             const int BONUS = 50; // use for diagonal wins 
@@ -20,7 +21,7 @@ namespace SlotMachine
 
             bool quit = false;
 
-            int[,] gameSlotsGrid = new int[3, 3]; // 3x3 grid 
+            int[,] gameSlotsGrid = new int[3, 3]; // 3x3 2d grid 
 
             int PLAYER_MONEY = 500;
             Console.WriteLine($"You have ${PLAYER_MONEY}!"); // user prompt
@@ -141,10 +142,13 @@ namespace SlotMachine
                     {
                         PLAYER_MONEY += WINNING_BET + BONUS + playerBet;
                         Console.WriteLine($"You've won ${WINNING_BET} + ${BONUS}");
+                        gameModeRestart = true;
                     }
                     else
                     {
                         Console.WriteLine("The center numbers do not match");
+                        Console.WriteLine("Press and key to continue.....");
+                        gameModeRestart = true;
                     }
                 }
 
@@ -256,10 +260,11 @@ namespace SlotMachine
 
 
                 string PlayerToContinueSelection = Console.ReadLine().ToLower();// gets user input for selection: (Y/N)
+             
 
-                if (PlayerToContinueSelection == "y")
+                if (PlayerToContinueSelection == PLAYER_TO_CONTINUE_ACCEPT)
                 {
-                    Console.WriteLine($"Select your Game: {SELECT_ROWS_GAME} {SELECT_COLOUMNS_GAME} {SELECT_DIAGONAL_GAME}");
+                    Console.WriteLine($"Select your Game: {SELECT_ROWS_GAME}: Rows {SELECT_COLOUMNS_GAME}: Columns {SELECT_DIAGONAL_GAME}: Diagonal {SELECT_CENTER_LINE_GAME}: Center ");
                     userInput = Console.ReadLine();
                     int gameSelectionReplay; // input game selection
 
@@ -294,7 +299,7 @@ namespace SlotMachine
                     PLAYER_MONEY -= playerBet; // takes away from User money total
                 }
 
-                if (PlayerToContinueSelection == "n" || PLAYER_MONEY <= 0) // check if player has selected n or had bet all of the money
+                if (PlayerToContinueSelection == PLAYER_TO_CONTINUE_DECLINE || PLAYER_MONEY <= 0) // check if player has selected n or had bet all of the money
                 {
                     quit = true;
                     Console.WriteLine($"Game Over bets are closed, Your total: {PLAYER_MONEY}");
