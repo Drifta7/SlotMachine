@@ -90,6 +90,7 @@ namespace SlotMachine
                         if (allMatch) // if all number in a row match is true
                         {
                             Ui_Methods.DisplayingWinningsAndBonusesToTheUser();
+
                             numberHasMatched = true;
                             PLAYER_MONEY += WINNING_BET + BONUS;
                             Console.WriteLine($"You've Won Wining bet: ${WINNING_BET} + Bonus: ${BONUS}");
@@ -99,14 +100,16 @@ namespace SlotMachine
                     }
                     if (!numberHasMatched)
                     {
-                        Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
+                        Ui_Methods.DisplayingTheNumbersDoNotMatchMessage(); // replaced here because lines of code were repeated
+
                         Console.WriteLine("there are no matching row numbers ");
                         Console.WriteLine("Press any key to continue.....");
                         gameModeRestart = true;
                     }
                 }
                 /////////////////////////////////CenterLine check/////////////////////////////////////////
-                Ui_Methods.GameSelectionCenterLine(gameSlotsGrid);
+                Ui_Methods.GameSelectionCenterLine(gameSlotsGrid); // replaced the lines of code with the method
+
                 if (gameSelection == SELECT_CENTER_LINE_GAME)
                 {
                     int firstCenterValue = gameSlotsGrid[1, 0];
@@ -121,21 +124,24 @@ namespace SlotMachine
                     }
                     if (CenterArrayMatches)
                     {
-                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser();
+                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(); // replaced here because lines of code were repeated
+
                         PLAYER_MONEY += WINNING_BET + BONUS + playerBet;
                         Console.WriteLine($"You've won ${WINNING_BET} + ${BONUS}");
                         gameModeRestart = true;
                     }
                     else
                     {
-                        Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
+                        Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();// replaced the lines of code with the method
+
                         Console.WriteLine("The center numbers do not match");
                         Console.WriteLine("Press and key to continue.....");
                         gameModeRestart = true;
                     }
                 }
 
-                Ui_Methods.GameSelectionColumns(gameSlotsGrid);
+                Ui_Methods.GameSelectionColumns(gameSlotsGrid);// replaced the lines of code with the method
+               
                 if (gameSelection == SELECT_COLOUMNS_GAME)
                 {
                     bool numbersHasMatched = false;
@@ -156,7 +162,8 @@ namespace SlotMachine
 
                         if (allMatch) // if all number in a cols match is true
                         {
-                            Ui_Methods.DisplayPlayerWinningBetMessage();
+                            Ui_Methods.DisplayPlayerWinningBetMessage(); // replaced here because lines of code were repeated
+
                             numbersHasMatched = true;
                             PLAYER_MONEY += WINNING_BET + BONUS + playerBet;
                             Console.WriteLine($"You've won ${WINNING_BET} + ${BONUS}");
@@ -174,7 +181,8 @@ namespace SlotMachine
                     }
                 }
                 ///////////////// Top Left diagonal check/////////////////
-                Ui_Methods.GameSelectionDiagonal(game);
+                Ui_Methods.GameSelectionDiagonal(gameSlotsGrid); // replaced the lines of code with the method
+
                 if (gameSelection == SELECT_DIAGONAL_GAME)
                 {
                     int firstDiagonalValue = gameSlotsGrid[0, 0]; // start the check with firstDiagonalValue in the loop 
@@ -192,21 +200,23 @@ namespace SlotMachine
 
                     if (allDiagonalMatch)
                     {
-                        Ui_Methods.DisplayPlayerWinningBetMessage();
+                        Ui_Methods.DisplayPlayerWinningBetMessage(); // placed here becasue the method does the same thing
+
                         PLAYER_MONEY += WINNING_BET + BONUS_2 + playerBet;
                         Console.WriteLine($" You've won ${WINNING_BET} + ${BONUS_2}");
                         gameModeRestart = true;
                     }
                     if (!allDiagonalMatch)
                     {
-                        Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
-                        
+                        Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();// replaced the lines of code with the method
+
                         Console.WriteLine(" There are no matching Diagonal numbers");
                         Console.WriteLine(" Press any key to continue.......");
                         gameModeRestart = true;
                     }
                     //////////////////////Top Right diagonal check/////////////////////////
-                    Ui_Methods.GameSelectionTopRightDiagonal(gameSlotsGrid);
+                    Ui_Methods.GameSelectionTopRightDiagonal(gameSlotsGrid);// replaced the lines of code with the method
+
                     for (int i = 0; i < gameSlotsGrid.GetLength(0); i++)
                     {
                         if (gameSlotsGrid[i, gameSlotsGrid.GetLength(1) - 1 - i] != firstDiagonalValue) // this starts at the end of the 1st dimension 
