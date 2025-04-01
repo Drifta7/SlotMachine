@@ -50,6 +50,12 @@ namespace SlotMachine
             ConstantVars.playerBet = Convert.ToInt32(Console.ReadLine()); // user inputs bet
         }
 
+        public static string PromptingUserToContinueGame()
+        {
+            Console.WriteLine("Do you want to continue? (Y/N)");
+            string UserSelection = Console.ReadLine().ToLower();
+            return UserSelection;
+        }
         public static void DisplayingWinningsAndBonusesToTheUser()
         {
             bool numberHasMatched;
@@ -65,7 +71,7 @@ namespace SlotMachine
             Console.ReadKey();
             Console.Clear(); // reset the Grid.
         }
-       
+
         public static void DisplayingSlotGameGrid(int[,] grid)
         {
             Random range = new Random(); // this is used because it will randomize the number inbetween the range from low to high
@@ -103,31 +109,29 @@ namespace SlotMachine
                 }
             }
         }
-        public static void GameSelectionColumns(int[,] grid)
+        public static bool GameSelectionColumns(int[,] grid)
         {
-            if (ConstantVars.gameSelection == ConstantVars.SELECT_COLOUMNS_GAME)
+            bool numbersHasMatched = false;
+            // loops cols checks through the grid
+            for (int cols = 0; cols < grid.GetLength(0); cols++) // this loops through the rows
             {
-                bool numbersHasMatched = false;
-                // loops cols checks through the grid
-                for (int cols = 0; cols < grid.GetLength(0); cols++) // this loops through the rows
-                {
-                    int checkEqualNumbers = grid[0, cols]; // this will check the first element of the columns
-                    bool allMatch = true; // bool set
+                int checkEqualNumbers = grid[0, cols]; // this will check the first element of the columns
+                bool allMatch = true; // bool set
 
-                    for (int rows = 0; rows < grid.GetLength(1); rows++) // this loops through rows
+                for (int rows = 0; rows < grid.GetLength(1); rows++) // this loops through rows
+                {
+                    if (grid[rows, cols] != checkEqualNumbers) // checks if the numbers are not the same
                     {
-                        if (grid[rows, cols] != checkEqualNumbers) // checks if the numbers are not the same
-                        {
-                            allMatch = false;
-                            break;
-                        }
+                        allMatch = false;
+                        break;
                     }
                 }
-
+               
+                return allMatch;
             }
         }
 
-        public static void GameSelectionCenterLine(int[,] grid)
+        public static bool GameSelectionCenterLine(int[,] grid)
         {
             int firstCenterValue = grid[1, 0];
             bool CenterArrayMatches = true;
@@ -139,6 +143,7 @@ namespace SlotMachine
                     break;
                 }
             }
+            return CenterArrayMatches;
         }
         public static void GameSelectionDiagonal(int[,] grid)
         {

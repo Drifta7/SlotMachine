@@ -108,12 +108,12 @@ namespace SlotMachine
                     }
                 }
                 /////////////////////////////////CenterLine check/////////////////////////////////////////
-                Ui_Methods.GameSelectionCenterLine(gameSlotsGrid); // replaced the lines of code with the method
 
-                if (gameSelection == SELECT_CENTER_LINE_GAME)
+                if (gameSelection == ConstantVars.SELECT_CENTER_LINE_GAME)
                 {
+                    bool CenterArrayMatches = Ui_Methods.GameSelectionCenterLine(gameSlotsGrid); // replaced the lines of code with the method
                     int firstCenterValue = gameSlotsGrid[1, 0];
-                    bool CenterArrayMatches = true;
+
                     for (int i = 0; i < gameSlotsGrid.GetLength(1); i++)
                     {
                         if (gameSlotsGrid[1, i] != firstCenterValue) // this checks the middle row of gameSlotGrid
@@ -125,25 +125,20 @@ namespace SlotMachine
                     if (CenterArrayMatches)
                     {
                         Ui_Methods.DisplayingWinningsAndBonusesToTheUser(); // replaced here because lines of code were repeated
-
-                        PLAYER_MONEY += WINNING_BET + BONUS + playerBet;
-                        Console.WriteLine($"You've won ${WINNING_BET} + ${BONUS}");
                         gameModeRestart = true;
                     }
                     else
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();// replaced the lines of code with the method
-
-                        Console.WriteLine("The center numbers do not match");
-                        Console.WriteLine("Press and key to continue.....");
                         gameModeRestart = true;
                     }
                 }
 
-                Ui_Methods.GameSelectionColumns(gameSlotsGrid);// replaced the lines of code with the method
-               
-                if (gameSelection == SELECT_COLOUMNS_GAME)
+
+                if (gameSelection == ConstantVars.SELECT_COLOUMNS_GAME)
                 {
+                    Ui_Methods.GameSelectionColumns(gameSlotsGrid);// replaced the lines of code with the method
+                    
                     bool numbersHasMatched = false;
                     // loops cols checks through the grid
                     for (int cols = 0; cols < gameSlotsGrid.GetLength(0); cols++) // this loops through the rows
@@ -226,7 +221,7 @@ namespace SlotMachine
                         }
                     }
                     if (allDiagonalMatch)
-                    { 
+                    {
                         Ui_Methods.DisplayPlayerWinningBetMessage();
 
                         Console.WriteLine($"You've won {WINNING_BET} + {BONUS_2}");
@@ -264,7 +259,7 @@ namespace SlotMachine
 
                 string PlayerToContinueSelection = Console.ReadLine().ToLower();// gets user input for selection: (Y/N)
 
-                 Ui_Methods.DisplayingPlayerContinueGameMessage();
+                Ui_Methods.DisplayingPlayerContinueGameMessage();
                 if (PlayerToContinueSelection == PLAYER_TO_CONTINUE_ACCEPT)
                 {
                     Console.WriteLine($"Select your Game: {SELECT_ROWS_GAME}: Rows {SELECT_COLOUMNS_GAME}: Columns {SELECT_DIAGONAL_GAME}: Diagonal {SELECT_CENTER_LINE_GAME}: Center ");
