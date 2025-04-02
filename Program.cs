@@ -68,9 +68,9 @@ namespace SlotMachine
                 bool numbersHasMactched = false; // <-- don't forget to add the the main refactored program
 
                 /////// Rows game check ///////////////
-                Ui_Methods.GameSelectionRows(gameSlotsGrid);
-                if (gameSelection == SELECT_ROWS_GAME)
+                if (ConstantVars.gameSelection == ConstantVars.SELECT_ROWS_GAME)
                 {
+                    Ui_Methods.GameSelectionRows(gameSlotsGrid);
                     bool numberHasMatched = false; // bool set to false
                     // the  loops rows checks through the grid
                     for (int rows = 0; rows < gameSlotsGrid.GetLength(0); rows++) // this loops through the rows
@@ -109,7 +109,7 @@ namespace SlotMachine
                 }
                 /////////////////////////////////CenterLine check/////////////////////////////////////////
 
-                if (gameSelection == ConstantVars.SELECT_CENTER_LINE_GAME)
+                if (ConstantVars.gameSelection == ConstantVars.SELECT_CENTER_LINE_GAME)
                 {
                     bool CenterArrayMatches = Ui_Methods.GameSelectionCenterLine(gameSlotsGrid); // replaced the lines of code with the method
                     int firstCenterValue = gameSlotsGrid[1, 0];
@@ -135,11 +135,11 @@ namespace SlotMachine
                 }
 
 
-                if (gameSelection == ConstantVars.SELECT_COLOUMNS_GAME)
+                if (ConstantVars.gameSelection == ConstantVars.SELECT_COLOUMNS_GAME)
                 {
                     Ui_Methods.GameSelectionColumns(gameSlotsGrid);// replaced the lines of code with the method
-                    
-                    bool numbersHasMatched = false;
+
+
                     // loops cols checks through the grid
                     for (int cols = 0; cols < gameSlotsGrid.GetLength(0); cols++) // this loops through the rows
                     {
@@ -159,7 +159,7 @@ namespace SlotMachine
                         {
                             Ui_Methods.DisplayPlayerWinningBetMessage(); // replaced here because lines of code were repeated
 
-                            numbersHasMatched = true;
+
                             PLAYER_MONEY += WINNING_BET + BONUS + playerBet;
                             Console.WriteLine($"You've won ${WINNING_BET} + ${BONUS}");
                             gameModeRestart = true;
@@ -178,7 +178,7 @@ namespace SlotMachine
                 ///////////////// Top Left diagonal check/////////////////
                 Ui_Methods.GameSelectionDiagonal(gameSlotsGrid); // replaced the lines of code with the method
 
-                if (gameSelection == SELECT_DIAGONAL_GAME)
+                if (ConstantVars.gameSelection == ConstantVars.SELECT_DIAGONAL_GAME)
                 {
                     int firstDiagonalValue = gameSlotsGrid[0, 0]; // start the check with firstDiagonalValue in the loop 
                     bool allDiagonalMatch = true; // bool set to true
@@ -259,9 +259,9 @@ namespace SlotMachine
 
                 string PlayerToContinueSelection = Console.ReadLine().ToLower();// gets user input for selection: (Y/N)
 
-                Ui_Methods.DisplayingPlayerContinueGameMessage();
-                if (PlayerToContinueSelection == PLAYER_TO_CONTINUE_ACCEPT)
+                if (PlayerToContinueSelection == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT)
                 {
+                    Ui_Methods.DisplayingPlayerContinueGameMessage();
                     Console.WriteLine($"Select your Game: {SELECT_ROWS_GAME}: Rows {SELECT_COLOUMNS_GAME}: Columns {SELECT_DIAGONAL_GAME}: Diagonal {SELECT_CENTER_LINE_GAME}: Center ");
                     userInput = Console.ReadLine();
                     int gameSelectionReplay; // input game selection
@@ -297,7 +297,7 @@ namespace SlotMachine
                     PLAYER_MONEY -= playerBet; // takes away from User money total
                 }
 
-                if (PlayerToContinueSelection == PLAYER_TO_CONTINUE_DECLINE || PLAYER_MONEY <= 0) // check if player has selected n or had bet all of the money
+                if (PlayerToContinueSelection == ConstantVars.PLAYER_TO_CONTINUE_DECLINE || PLAYER_MONEY <= 0) // check if player has selected n or had bet all of the money
                 {
                     quit = true;
                     Console.WriteLine($"Game Over bets are closed, Your total: {PLAYER_MONEY}");

@@ -126,9 +126,13 @@ namespace SlotMachine
                         break;
                     }
                 }
-               
-                return allMatch;
+
+                if (allMatch)
+                {
+                    return true;
+                }
             }
+                return false;   // if no match is found 
         }
 
         public static bool GameSelectionCenterLine(int[,] grid)
