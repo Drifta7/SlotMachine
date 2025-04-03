@@ -19,8 +19,6 @@ namespace SlotMachine
 
             Ui_Methods.PromptingUserToSelectGameMode();
 
-            // Console.WriteLine($"Select your Game: {SELECT_ROWS_GAME}:ROWS {SELECT_COLOUMNS_GAME}:COLOUMS {SELECT_DIAGONAL_GAME}:DIAGONAL {SELECT_CENTER_LINE_GAME}:CENTER");
-
             //left off here!
             int gameSelection; // input game selection
             string userInput = Console.ReadLine();
@@ -28,16 +26,15 @@ namespace SlotMachine
             bool istheSelectionValid = false;
             Logic.ValidatingUserInputForGameSelection();
 
-
             int playerBet = 0;
 
-            Console.Write("Place your Bet: ");
             Ui_Methods.PromptingUserToPlaceBet();
 
-            //playerBet = Convert.ToInt32(Console.ReadLine()); // user inputs bet
+
 
             // if statment here to check if its a number and not a letter
 
+            Ui_Methods.DisplayingTotalAmountOfMoneyDifference();
             PLAYER_MONEY -= playerBet;
 
             //Console.WriteLine($"Balance is now: {PLAYER_MONEY}"); // amount after the player has bet
@@ -48,21 +45,12 @@ namespace SlotMachine
 
             //Random range = new Random(); // this is the random seed 
 
-            bool gameModeRestart = false;// I will get rid of this as it's not been used
+            bool gameModeRestart = false;
 
             while (!quit || !gameModeRestart)
             {
-                //Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid);
-                ////////// the nested loop displays the grid //////////////////
-                //for (int rows = 0; rows < gameSlotsGrid.GetLength(0); rows++) // loops through the rows 
-                //{
-                //    for (int cols = 0; cols < gameSlotsGrid.GetLength(1); cols++) // loops through the columns
-                //    {
-                //        int randNumInArray = range.Next(LOW, HIGH); // variable to store the random number also so that "random" 'resets' after each loop 
-                //        Console.Write((gameSlotsGrid[rows, cols] = randNumInArray) + " ");    // adding ranNumInArray value into elements of the array
-                //    }
-                //    Console.WriteLine(); // this makes sure that everything get printed on the next line.
-                //}
+                Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid); // correct!
+
                 /////////////////////////////////////////////////////////////////////////////
 
                 bool numbersHasMactched = false; // <-- don't forget to add the the main refactored program
@@ -90,10 +78,7 @@ namespace SlotMachine
                         if (allMatch) // if all number in a row match is true
                         {
                             Ui_Methods.DisplayingWinningsAndBonusesToTheUser();
-
                             numberHasMatched = true;
-                            PLAYER_MONEY += WINNING_BET + BONUS;
-                            Console.WriteLine($"You've Won Wining bet: ${WINNING_BET} + Bonus: ${BONUS}");
                             gameModeRestart = true;
                             break; // add this after the method call
                         }
@@ -101,9 +86,6 @@ namespace SlotMachine
                     if (!numberHasMatched)
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage(); // replaced here because lines of code were repeated
-
-                        Console.WriteLine("there are no matching row numbers ");
-                        Console.WriteLine("Press any key to continue.....");
                         gameModeRestart = true;
                     }
                 }
@@ -139,7 +121,6 @@ namespace SlotMachine
                 {
                     Ui_Methods.GameSelectionColumns(gameSlotsGrid);// replaced the lines of code with the method
 
-
                     // loops cols checks through the grid
                     for (int cols = 0; cols < gameSlotsGrid.GetLength(0); cols++) // this loops through the rows
                     {
@@ -158,10 +139,6 @@ namespace SlotMachine
                         if (allMatch) // if all number in a cols match is true
                         {
                             Ui_Methods.DisplayPlayerWinningBetMessage(); // replaced here because lines of code were repeated
-
-
-                            PLAYER_MONEY += WINNING_BET + BONUS + playerBet;
-                            Console.WriteLine($"You've won ${WINNING_BET} + ${BONUS}");
                             gameModeRestart = true;
                             break;
                         }
@@ -170,49 +147,32 @@ namespace SlotMachine
                     if (!numbersHasMactched)
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
-                        Console.WriteLine("there are no matching Column numbers ");
-                        Console.WriteLine("Press any key to continue.....");
                         gameModeRestart = true;
                     }
                 }
                 ///////////////// Top Left diagonal check/////////////////
-                Ui_Methods.GameSelectionDiagonal(gameSlotsGrid); // replaced the lines of code with the method
 
                 if (ConstantVars.gameSelection == ConstantVars.SELECT_DIAGONAL_GAME)
                 {
                     int firstDiagonalValue = gameSlotsGrid[0, 0]; // start the check with firstDiagonalValue in the loop 
                     bool allDiagonalMatch = true; // bool set to true
-
-                    for (int i = 0; i < gameSlotsGrid.GetLength(0); i++)
-                    {
-                        if (gameSlotsGrid[i, i] != firstDiagonalValue) // compares each diagional element
-                        {
-                            allDiagonalMatch = false; // if the first element doesnt work the loop will break
-                            break;
-                        }
-
-                    }
+                   
+                    Ui_Methods.GameSelectionDiagonal(gameSlotsGrid); // replaced the lines of code with the method
 
                     if (allDiagonalMatch)
                     {
-                        Ui_Methods.DisplayPlayerWinningBetMessage(); // placed here becasue the method does the same thing
-
-                        PLAYER_MONEY += WINNING_BET + BONUS_2 + playerBet;
-                        Console.WriteLine($" You've won ${WINNING_BET} + ${BONUS_2}");
+                        Ui_Methods.DisplayPlayerWinningBetMessage(); // placed here becasue the method does the same thing 
                         gameModeRestart = true;
                     }
-                    if (!allDiagonalMatch)
+                    if (!allDiagonalMatch) //this is needed do not delete allDiagonalMatch ///Left off here!!!
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();// replaced the lines of code with the method
-
-                        Console.WriteLine(" There are no matching Diagonal numbers");
-                        Console.WriteLine(" Press any key to continue.......");
                         gameModeRestart = true;
                     }
                     //////////////////////Top Right diagonal check/////////////////////////
                     Ui_Methods.GameSelectionTopRightDiagonal(gameSlotsGrid);// replaced the lines of code with the method
 
-                    for (int i = 0; i < gameSlotsGrid.GetLength(0); i++)
+                    for (int i = 0; i < gameSlotsGrid.GetLength(0); i++) // 
                     {
                         if (gameSlotsGrid[i, gameSlotsGrid.GetLength(1) - 1 - i] != firstDiagonalValue) // this starts at the end of the 1st dimension 
                         {
@@ -224,22 +184,18 @@ namespace SlotMachine
                     {
                         Ui_Methods.DisplayPlayerWinningBetMessage();
 
-                        Console.WriteLine($"You've won {WINNING_BET} + {BONUS_2}");
-                        PLAYER_MONEY += WINNING_BET + BONUS_2 + playerBet;
                         gameModeRestart = true;
                     }
                     if (!allDiagonalMatch)
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
-                        Console.WriteLine("There are no matching Diagonal numbers");
-                        Console.WriteLine("Press any key to continue");
                         gameModeRestart = true;
                     }
                     ///////////////////////////////////////////////
                     if (numbersHasMactched)
                     {
-                        Console.WriteLine($"You've have Won: ${WINNING_BET}");
-                        PLAYER_MONEY += WINNING_BET; // add wining numbers
+                        Ui_Methods.DisplayPlayerWinningBetMessage();
+                        gameModeRestart = true;
                     }
 
                     else
@@ -262,7 +218,7 @@ namespace SlotMachine
                 if (PlayerToContinueSelection == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT)
                 {
                     Ui_Methods.DisplayingPlayerContinueGameMessage();
-                    Console.WriteLine($"Select your Game: {SELECT_ROWS_GAME}: Rows {SELECT_COLOUMNS_GAME}: Columns {SELECT_DIAGONAL_GAME}: Diagonal {SELECT_CENTER_LINE_GAME}: Center ");
+                    Console.WriteLine($"Select your Game: {ConstantVars.SELECT_ROWS_GAME}: Rows {ConstantVars.SELECT_COLOUMNS_GAME}: Columns {ConstantVars.SELECT_DIAGONAL_GAME}: Diagonal {ConstantVars.SELECT_CENTER_LINE_GAME}: Center ");
                     userInput = Console.ReadLine();
                     int gameSelectionReplay; // input game selection
 
@@ -273,7 +229,7 @@ namespace SlotMachine
                         if (Int32.TryParse(userInput, out gameSelectionReplay)) // this will catch the user input if it is invalid
                         {
 
-                            if (gameSelectionReplay == SELECT_ROWS_GAME || gameSelectionReplay == SELECT_COLOUMNS_GAME || gameSelectionReplay == SELECT_DIAGONAL_GAME || gameSelectionReplay == SELECT_CENTER_LINE_GAME)
+                            if (gameSelectionReplay == ConstantVars.SELECT_ROWS_GAME || gameSelectionReplay == ConstantVars.SELECT_COLOUMNS_GAME || gameSelectionReplay == ConstantVars.SELECT_DIAGONAL_GAME || gameSelectionReplay == ConstantVars.SELECT_CENTER_LINE_GAME)
                             {
                                 Console.WriteLine($"you've have selected {gameSelectionReplay}");
                                 istheSelectionValidReplay = true; // bool set to true and selection is valid

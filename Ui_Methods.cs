@@ -35,7 +35,7 @@ namespace SlotMachine
         }
         public static void DisplayingTheNumbersDoNotMatchMessage()
         {
-            Console.WriteLine("The center numbers do not match");
+            Console.WriteLine("The numbers do not match");
             Console.WriteLine("Press and key to continue.....");
         }
         public static string UserInput()
@@ -58,8 +58,7 @@ namespace SlotMachine
         }
         public static void DisplayingWinningsAndBonusesToTheUser()
         {
-            bool numberHasMatched;
-            numberHasMatched = true;
+
             ConstantVars.PLAYER_MONEY += ConstantVars.WINNING_BET + ConstantVars.BONUS;
             Console.WriteLine($"You've Won Wining bet: ${ConstantVars.WINNING_BET} + Bonus: ${ConstantVars.BONUS}");
             BooleansForRefactor.gameModeRestart = true; // use this in the new main file program // use this in the actual program gameModeRestart = false;
@@ -72,6 +71,10 @@ namespace SlotMachine
             Console.Clear(); // reset the Grid.
         }
 
+        public static void DisplayingTotalAmountOfMoneyDifference()
+        {
+            ConstantVars.PLAYER_MONEY -= ConstantVars.playerBet;
+        }   
         public static void DisplayingSlotGameGrid(int[,] grid)
         {
             Random range = new Random(); // this is used because it will randomize the number inbetween the range from low to high
