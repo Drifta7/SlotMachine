@@ -27,6 +27,11 @@ namespace SlotMachine
         {
             Console.WriteLine($"You have {ConstantVars.PLAYER_MONEY}!");
         }
+        public static string PlayerToContinueSelection()
+        {
+            string PlayerToContinueSelection = Console.ReadLine().ToLower();// gets user input for selection: (Y/N)
+            return PlayerToContinueSelection;
+        }
         public static string PromptingUserToSelectGameMode()
         {
             Console.WriteLine($"Select your Game: {ConstantVars.SELECT_ROWS_GAME}:ROWS {ConstantVars.SELECT_COLOUMNS_GAME}:COLOUMS {ConstantVars.SELECT_DIAGONAL_GAME}:DIAGONAL {ConstantVars.SELECT_CENTER_LINE_GAME}:CENTER");
@@ -48,6 +53,7 @@ namespace SlotMachine
         {
             Console.WriteLine("Place your Bet:");
             ConstantVars.playerBet = Convert.ToInt32(Console.ReadLine()); // user inputs bet
+            ConstantVars.PLAYER_MONEY -= ConstantVars.playerBet; // takes away from User money total
         }
 
         public static string PromptingUserToContinueGame()
@@ -56,25 +62,30 @@ namespace SlotMachine
             string UserSelection = Console.ReadLine().ToLower();
             return UserSelection;
         }
+
+        public static void ValidatingUserEntryToContinueGame()
+        {
+
+        }
         public static void DisplayingWinningsAndBonusesToTheUser()
         {
-
             ConstantVars.PLAYER_MONEY += ConstantVars.WINNING_BET + ConstantVars.BONUS;
             Console.WriteLine($"You've Won Wining bet: ${ConstantVars.WINNING_BET} + Bonus: ${ConstantVars.BONUS}");
-            BooleansForRefactor.gameModeRestart = true; // use this in the new main file program // use this in the actual program gameModeRestart = false;
+            bool gameModeRestart = true; // use this in the new main file program // use this in the actual program gameModeRestart = false;
         }
 
-        public static void PromptUserToRestartTheSlotsGrid()
+        public static void PromptingUserToClearTheSlotsGrid()
         {
             // used because the screen needs to have a clean interface
+            Console.WriteLine("Press Enter to clear screen");
             Console.ReadKey();
             Console.Clear(); // reset the Grid.
         }
 
-        public static void DisplayingTotalAmountOfMoneyDifference()
+        public static int DisplayingTotalAmountOfMoneyDifference() // might have to change this to return a value
         {
-            ConstantVars.PLAYER_MONEY -= ConstantVars.playerBet;
-        }   
+            return ConstantVars.retuningBothValues = ConstantVars.PLAYER_MONEY -= ConstantVars.playerBet;
+        }
         public static void DisplayingSlotGameGrid(int[,] grid)
         {
             Random range = new Random(); // this is used because it will randomize the number inbetween the range from low to high
@@ -90,7 +101,7 @@ namespace SlotMachine
         }
 
 
-        public static void GameSelectionRows(int[,] grid)
+        public static bool GameSelectionRows(int[,] grid)
         {
             if (ConstantVars.gameSelection == ConstantVars.SELECT_ROWS_GAME)
             {
@@ -109,8 +120,14 @@ namespace SlotMachine
                             break; // breaks out of the loop if it finds a match
                         }
                     }
+
+                    if (allMatch)
+                    {
+                        return numberHasMatched = true; // if the numbers are the same 
+                    }
                 }
             }
+            return false;
         }
         public static bool GameSelectionColumns(int[,] grid)
         {
@@ -135,7 +152,7 @@ namespace SlotMachine
                     return true;
                 }
             }
-                return false;   // if no match is found 
+            return false;   // if no match is found 
         }
 
         public static bool GameSelectionCenterLine(int[,] grid)
@@ -189,8 +206,9 @@ namespace SlotMachine
 
         public static void DisplayingPlayerContinueGameMessage()
         {
-            Logic.PlayerToContinueSelection = Console.ReadLine().ToLower();// gets user input for selection: (Y/N)
-            if (Logic.PlayerToContinueSelection == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT)
+            string PlayerToContinueSelection = Console.ReadLine().ToLower();// gets user input for selection: (Y/N)
+
+            if (PlayerToContinueSelection == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT)
             {
                 Console.WriteLine($"Select your Game: {ConstantVars.SELECT_ROWS_GAME}: Rows {ConstantVars.SELECT_COLOUMNS_GAME}: Columns {ConstantVars.SELECT_DIAGONAL_GAME}: Diagonal {ConstantVars.SELECT_CENTER_LINE_GAME}: Center ");
                 string userInput = Ui_Methods.UserInput();
@@ -223,12 +241,11 @@ namespace SlotMachine
                 }
                 while (!istheSelectionValidReplay); // loop until true
 
-                Console.WriteLine("place you bets:");
-                ConstantVars.playerBet = Convert.ToInt32(Console.ReadLine()); // gets the bet amount from user
-                ConstantVars.PLAYER_MONEY -= ConstantVars.playerBet; // takes away from User money total
+                PromptingUserToPlaceBet(); // this will ask the user to place a bet
+
             }
 
-            if (Logic.PlayerToContinueSelection == ConstantVars.PLAYER_TO_CONTINUE_DECLINE || ConstantVars.PLAYER_MONEY <= 0) // check if player has selected n or had bet all of the money
+            if (PlayerToContinueSelection == ConstantVars.PLAYER_TO_CONTINUE_DECLINE || ConstantVars.PLAYER_MONEY <= 0) // check if player has selected n or had bet all of the money
             {
                 BooleansForRefactor.quit = true;
                 Console.WriteLine($"Game Over bets are closed, Your total: {ConstantVars.PLAYER_MONEY}");

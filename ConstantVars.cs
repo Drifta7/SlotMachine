@@ -28,6 +28,7 @@ namespace SlotMachine
         public static int playerBet;
         public static int gameSelection;
 
+        public static int retuningBothValues;
 
     }
 }
