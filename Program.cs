@@ -36,14 +36,12 @@ namespace SlotMachine
 
             // if statment here to check if its a number and not a letter
 
-            Ui_Methods.DisplayingTotalAmountOfMoneyDifference();
+            Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney();
             PLAYER_MONEY -= playerBet;
 
             //Console.WriteLine($"Balance is now: {PLAYER_MONEY}"); // amount after the player has bet
             Ui_Methods.DisplayingPlayerBalanceUpdate();
 
-            const int LOW = 0; // const low number 
-            const int HIGH = 9; // since 9 is the biggest "ones"
 
             //Random range = new Random(); // this is the random seed 
 
@@ -60,7 +58,7 @@ namespace SlotMachine
                 /////// Rows game check ///////////////
                 if (ConstantVars.gameSelection == ConstantVars.SELECT_ROWS_GAME)
                 {
-                    bool allMatch = Ui_Methods.GameSelectionRows(gameSlotsGrid);
+                    bool allMatch = Logic.GameSelectionRows(gameSlotsGrid);
 
 
                     if (allMatch) // if all number in a row match is true
@@ -81,7 +79,7 @@ namespace SlotMachine
 
             if (ConstantVars.gameSelection == ConstantVars.SELECT_CENTER_LINE_GAME)
             {
-                bool CenterArrayMatches = Ui_Methods.GameSelectionCenterLine(gameSlotsGrid); // replaced the lines of code with the method
+                bool CenterArrayMatches = Logic.GameSelectionCenterLine(gameSlotsGrid); // replaced the lines of code with the method
 
                 if (CenterArrayMatches)
                 {
@@ -98,7 +96,7 @@ namespace SlotMachine
 
             if (ConstantVars.gameSelection == ConstantVars.SELECT_COLOUMNS_GAME)
             {
-                Ui_Methods.GameSelectionColumns(gameSlotsGrid);// replaced the lines of code with the method
+                Logic.GameSelectionColumns(gameSlotsGrid);// replaced the lines of code with the method
 
                 // loops cols checks through the grid
                 for (int cols = 0; cols < gameSlotsGrid.GetLength(0); cols++) // this loops through the rows
@@ -136,7 +134,7 @@ namespace SlotMachine
                 int firstDiagonalValue = gameSlotsGrid[0, 0]; // start the check with firstDiagonalValue in the loop 
                 bool allDiagonalMatch = true; // bool set to true
 
-                Ui_Methods.GameSelectionDiagonal(gameSlotsGrid); // replaced the lines of code with the method
+                Logic.GameSelectionTopLeftDiagonal(gameSlotsGrid); // replaced the lines of code with the method
 
                 if (allDiagonalMatch)
                 {
@@ -149,7 +147,7 @@ namespace SlotMachine
                     gameModeRestart = true;
                 }
                 //////////////////////Top Right diagonal check/////////////////////////
-                Ui_Methods.GameSelectionTopRightDiagonal(gameSlotsGrid);// replaced the lines of code with the method
+                Logic.GameSelectionTopRightDiagonal(gameSlotsGrid);// replaced the lines of code with the method
 
                 for (int i = 0; i < gameSlotsGrid.GetLength(0); i++) // 
                 {
@@ -185,19 +183,19 @@ namespace SlotMachine
             }
 
             Ui_Methods.PromptingUserToClearTheSlotsGrid();
-           
+
             Ui_Methods.DisplayingPlayerBalanceUpdate(); // this will display the players balance after the game has been played
-           
+
             // make a methos for this
             Console.WriteLine("Would you like to bet again? (Y/N)");
 
 
-          
+
             if (Ui_Methods.PlayerToContinueSelection() == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT)
             {
                 Ui_Methods.DisplayingPlayerContinueGameMessage();
                 Console.WriteLine($"Select your Game: {ConstantVars.SELECT_ROWS_GAME}: Rows {ConstantVars.SELECT_COLOUMNS_GAME}: Columns {ConstantVars.SELECT_DIAGONAL_GAME}: Diagonal {ConstantVars.SELECT_CENTER_LINE_GAME}: Center ");
-                userInput = Console.ReadLine(); // delete this later, because it is not needed
+               // userInput = Console.ReadLine(); // delete this later, because it is not needed
                 Ui_Methods.UserInput();
                 int gameSelectionReplay; // input game selection
 
@@ -208,7 +206,8 @@ namespace SlotMachine
                     if (Int32.TryParse(userInput, out gameSelectionReplay)) // this will catch the user input if it is invalid
                     {
 
-                        if (gameSelectionReplay == ConstantVars.SELECT_ROWS_GAME || gameSelectionReplay == ConstantVars.SELECT_COLOUMNS_GAME || gameSelectionReplay == ConstantVars.SELECT_DIAGONAL_GAME || gameSelectionReplay == ConstantVars.SELECT_CENTER_LINE_GAME)
+                        if (gameSelectionReplay == ConstantVars.SELECT_ROWS_GAME || gameSelectionReplay == ConstantVars.SELECT_COLOUMNS_GAME
+                         || gameSelectionReplay == ConstantVars.SELECT_DIAGONAL_GAME || gameSelectionReplay == ConstantVars.SELECT_CENTER_LINE_GAME)
                         {
                             Console.WriteLine($"you've have selected {gameSelectionReplay}");
                             isTheSelectionValidForReplay = true; // bool set to true and selection is valid
@@ -235,7 +234,7 @@ namespace SlotMachine
             if (Ui_Methods.PlayerToContinueSelection() == ConstantVars.PLAYER_TO_CONTINUE_DECLINE || PLAYER_MONEY <= 0) // check if player has selected n or had bet all of the money
             {
                 quit = true;
-                Console.WriteLine($"Game Over bets are closed, Your total: {PLAYER_MONEY}");
+                Ui_Methods.DisplayingGameOverMessage();
             }
         }
     }
