@@ -14,6 +14,8 @@ namespace SlotMachine
             bool numbersHaveMatched = false;
             bool numberHasMatched = false; // bool set to false
 
+            bool haveTheNumbersMatched;
+
             int[,] gameSlotsGrid = new int[3, 3]; // 3x3 2d grid 
 
             int PLAYER_MONEY = 500;
@@ -34,7 +36,7 @@ namespace SlotMachine
 
 
 
-            // if statment here to check if its a number and not a letter
+            haveTheNumbersMatched = Logic.CheckForWin(gameSlotsGrid); // left off here 
 
             Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney();
             PLAYER_MONEY -= playerBet;
@@ -113,7 +115,7 @@ namespace SlotMachine
                         }
                     }
 
-                    if (allMatch) // if all number in a cols match is true
+                    if (haveTheNumbersMatched) // if all number in a cols match is true
                     {
                         Ui_Methods.DisplayPlayerWinningBetMessage(); // replaced here because lines of code were repeated
                         gameModeRestart = true;
@@ -147,21 +149,14 @@ namespace SlotMachine
                     gameModeRestart = true;
                 }
                 //////////////////////Top Right diagonal check/////////////////////////
+
                 Logic.GameSelectionTopRightDiagonal(gameSlotsGrid);// replaced the lines of code with the method
 
-                for (int i = 0; i < gameSlotsGrid.GetLength(0); i++) // 
-                {
-                    if (gameSlotsGrid[i, gameSlotsGrid.GetLength(1) - 1 - i] != firstDiagonalValue) // this starts at the end of the 1st dimension 
-                    {
-                        allDiagonalMatch = false;
-                        break;
-                    }
-                }
                 if (allDiagonalMatch)
                 {
                     Ui_Methods.DisplayPlayerWinningBetMessage();
-
                     gameModeRestart = true;
+
                 }
                 if (!allDiagonalMatch)
                 {
@@ -177,8 +172,7 @@ namespace SlotMachine
 
                 else
                 {
-                    Console.WriteLine("there are no matching numbers ");
-                    Console.WriteLine("Press any key to continue.....");
+                    Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
                 }
             }
 
@@ -187,15 +181,15 @@ namespace SlotMachine
             Ui_Methods.DisplayingPlayerBalanceUpdate(); // this will display the players balance after the game has been played
 
             // make a methos for this
-            Console.WriteLine("Would you like to bet again? (Y/N)");
 
+            Ui_Methods.DisplayingAskingUserToBetAgain();
 
 
             if (Ui_Methods.PlayerToContinueSelection() == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT)
             {
                 Ui_Methods.DisplayingPlayerContinueGameMessage();
                 Console.WriteLine($"Select your Game: {ConstantVars.SELECT_ROWS_GAME}: Rows {ConstantVars.SELECT_COLOUMNS_GAME}: Columns {ConstantVars.SELECT_DIAGONAL_GAME}: Diagonal {ConstantVars.SELECT_CENTER_LINE_GAME}: Center ");
-               // userInput = Console.ReadLine(); // delete this later, because it is not needed
+                
                 Ui_Methods.UserInput();
                 int gameSelectionReplay; // input game selection
 
@@ -208,6 +202,7 @@ namespace SlotMachine
 
                         if (gameSelectionReplay == ConstantVars.SELECT_ROWS_GAME || gameSelectionReplay == ConstantVars.SELECT_COLOUMNS_GAME
                          || gameSelectionReplay == ConstantVars.SELECT_DIAGONAL_GAME || gameSelectionReplay == ConstantVars.SELECT_CENTER_LINE_GAME)
+                       
                         {
                             Console.WriteLine($"you've have selected {gameSelectionReplay}");
                             isTheSelectionValidForReplay = true; // bool set to true and selection is valid

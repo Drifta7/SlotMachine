@@ -70,6 +70,11 @@ namespace SlotMachine
         {
 
         }
+
+        public static void DisplayingAskingUserToBetAgain()
+        {
+            Console.WriteLine("Would you like to bet again? (Y/N)");
+        }
         public static void DisplayingWinningsAndBonusesToTheUser()
         {
             ConstantVars.PLAYER_MONEY += ConstantVars.WINNING_BET + ConstantVars.BONUS;
@@ -105,14 +110,13 @@ namespace SlotMachine
 
         public static void DisplayingPlayerContinueGameMessage()
         {
-            string PlayerToContinueSelection = Console.ReadLine().ToLower();// gets user input for selection: (Y/N)
-
-            if (PlayerToContinueSelection == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT)
+    
+            if (Ui_Methods.PlayerToContinueSelection() == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT)
             {
                 Console.WriteLine($"Select your Game: {ConstantVars.SELECT_ROWS_GAME}: Rows {ConstantVars.SELECT_COLOUMNS_GAME}: Columns {ConstantVars.SELECT_DIAGONAL_GAME}: Diagonal {ConstantVars.SELECT_CENTER_LINE_GAME}: Center ");
                 string userInput = Ui_Methods.UserInput();
                 int gameSelectionReplay; // input game selection
-
+                bool quit = false; // this is used to check if the user has selected to quit the game
 
                 bool istheSelectionValidReplay = false;
                 do // this will check if the user input is valid
@@ -129,13 +133,13 @@ namespace SlotMachine
                         else // this catches incorrect number inputs
                         {
                             Console.WriteLine("NUMBER ERROR! This is not the correct selection, Please try again"); // if the selection is not true
-                            userInput = Console.ReadLine();
+                            userInput = Ui_Methods.UserInput();
                         }
                     }
                     else
                     {
                         Console.WriteLine("Please enter a vaild number ");
-                        userInput = Console.ReadLine();
+                        userInput = Ui_Methods.UserInput();
                     }
                 }
                 while (!istheSelectionValidReplay); // loop until true
@@ -144,7 +148,7 @@ namespace SlotMachine
 
             }
 
-            if (PlayerToContinueSelection == ConstantVars.PLAYER_TO_CONTINUE_DECLINE || ConstantVars.PLAYER_MONEY <= 0) // check if player has selected n or had bet all of the money
+            if (Ui_Methods.PlayerToContinueSelection() == ConstantVars.PLAYER_TO_CONTINUE_DECLINE || ConstantVars.PLAYER_MONEY <= 0) // check if player has selected n or had bet all of the money
             {
                 quit = true;
                 Console.WriteLine($"Game Over bets are closed, Your total: {ConstantVars.PLAYER_MONEY}");
