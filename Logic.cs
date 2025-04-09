@@ -102,7 +102,7 @@ namespace SlotMachine
         ////////////////------------////////////-----------/////////----------////////  -----------------------
         public static bool GameSelectionColumns(int[,] grid)
         {
-            bool numbersHasMatched = false;
+            
             // loops cols checks through the grid
             for (int cols = 0; cols < grid.GetLength(0); cols++) // this loops through the rows
             {
@@ -114,7 +114,6 @@ namespace SlotMachine
                     if (grid[rows, cols] != checkEqualNumbers) // checks if the numbers are not the same
                     {
                         allMatch = false;
-                        break;
                     }
                 }
 

@@ -21,7 +21,6 @@ namespace SlotMachine
         public static void DisplayingPlayerBalanceUpdate()
         {
             Console.WriteLine($"Balance is now: {ConstantVars.PLAYER_MONEY}"); // amount after the player has bet
-
         }
         public static void DisplayCurrentAmountOfMoney()
         {
@@ -66,7 +65,7 @@ namespace SlotMachine
         {
             Console.WriteLine($"Game Over bets are closed, Your total: {ConstantVars.PLAYER_MONEY}");
         }
-        public static void ValidatingUserEntryToContinueGame()
+        public static void ValidatingUserEntryToContinueGame() // not sire if im going to use this.....
         {
 
         }
