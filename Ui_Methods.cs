@@ -91,7 +91,9 @@ namespace SlotMachine
 
         public static int DisplayingTotalDifferenceOfAmountOfMoney() // might have to change this to return a value
         {
-            return ConstantVars.retuningBothValues = ConstantVars.PLAYER_MONEY -= ConstantVars.playerBet;
+            ConstantVars.retuningBothValues = ConstantVars.PLAYER_MONEY -= ConstantVars.playerBet;
+            Console.WriteLine($"You Have this much {ConstantVars.retuningBothValues}");
+            return ConstantVars.retuningBothValues;
         }
         public static void DisplayingSlotGameGrid(int[,] grid)
         {
@@ -109,7 +111,7 @@ namespace SlotMachine
 
         public static void DisplayingPlayerContinueGameMessage()
         {
-    
+
             if (Ui_Methods.PlayerToContinueSelection() == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT)
             {
                 Console.WriteLine($"Select your Game: {ConstantVars.SELECT_ROWS_GAME}: Rows {ConstantVars.SELECT_COLOUMNS_GAME}: Columns {ConstantVars.SELECT_DIAGONAL_GAME}: Diagonal {ConstantVars.SELECT_CENTER_LINE_GAME}: Center ");
@@ -120,10 +122,8 @@ namespace SlotMachine
                 bool istheSelectionValidReplay = false;
                 do // this will check if the user input is valid
                 {
-
                     if (Int32.TryParse(userInput, out gameSelectionReplay)) // this will catch the user input if it is invalid
                     {
-
                         if (gameSelectionReplay == ConstantVars.SELECT_ROWS_GAME || gameSelectionReplay == ConstantVars.SELECT_COLOUMNS_GAME || gameSelectionReplay == ConstantVars.SELECT_DIAGONAL_GAME || gameSelectionReplay == ConstantVars.SELECT_CENTER_LINE_GAME)
                         {
                             Console.WriteLine($"you've have selected {gameSelectionReplay}");
@@ -144,7 +144,6 @@ namespace SlotMachine
                 while (!istheSelectionValidReplay); // loop until true
 
                 PromptingUserToPlaceBet(); // this will ask the user to place a bet
-
             }
 
             if (Ui_Methods.PlayerToContinueSelection() == ConstantVars.PLAYER_TO_CONTINUE_DECLINE || ConstantVars.PLAYER_MONEY <= 0) // check if player has selected n or had bet all of the money

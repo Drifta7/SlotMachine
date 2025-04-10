@@ -48,7 +48,7 @@ namespace SlotMachine
             bool gameModeRestart = false;
             bool numbersHasMactched = false;
 
-            while (!quit || !gameModeRestart)
+            while (!quit || !gameModeRestart) // loop within the methods
             {
                 Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid); // correct!
 
@@ -58,7 +58,7 @@ namespace SlotMachine
                 /////// Rows game check ///////////////
                 if (ConstantVars.gameSelection == ConstantVars.SELECT_ROWS_GAME)
                 {
-                    bool allMatch = Logic.GameSelectionRows(gameSlotsGrid);
+                    bool allMatch = Logic.GameRowsCheck(gameSlotsGrid);
 
                     if (allMatch) // if all number in a row match is true
                     {
@@ -72,14 +72,16 @@ namespace SlotMachine
                 if (!numberHasMatched)
                 {
                     Ui_Methods.DisplayingTheNumbersDoNotMatchMessage(); // replaced here because lines of code were repeated
+                    Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(); // this will display the players balance after the game has been played
                     gameModeRestart = true;
+
                 }
 
                 /////////////////////////////////CenterLine check/////////////////////////////////////////
 
                 if (ConstantVars.gameSelection == ConstantVars.SELECT_CENTER_LINE_GAME)
                 {
-                    bool CenterArrayMatches = Logic.GameSelectionCenterLine(gameSlotsGrid); // replaced the lines of code with the method
+                    bool CenterArrayMatches = Logic.GameCenterLineCheck(gameSlotsGrid); // replaced the lines of code with the method
 
                     if (CenterArrayMatches)
                     {
@@ -89,6 +91,7 @@ namespace SlotMachine
                     else
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();// replaced the lines of code with the method
+                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney();
                         gameModeRestart = true;
                     }
                 }
@@ -96,7 +99,7 @@ namespace SlotMachine
                 if (ConstantVars.gameSelection == ConstantVars.SELECT_COLOUMNS_GAME)
                 {
 
-                    bool numbersHaveMatched = Logic.GameSelectionColumns(gameSlotsGrid);// replaced the lines of code with the method
+                    bool numbersHaveMatched = Logic.GameColumnsCheck(gameSlotsGrid);// 
                     
                         if (haveTheNumbersMatched) // if all number in a cols match is true
                         {
@@ -114,7 +117,7 @@ namespace SlotMachine
 
                 if (ConstantVars.gameSelection == ConstantVars.SELECT_DIAGONAL_GAME)
                 {
-                    bool allDiagonalMatch = Logic.GameSelectionTopLeftDiagonal(gameSlotsGrid); // replaced the lines of code with the method
+                    bool allDiagonalMatch = Logic.GameTopLeftDiagonalCheck(gameSlotsGrid); // replaced the lines of code with the method
 
                     if (allDiagonalMatch)
                     {
@@ -129,7 +132,7 @@ namespace SlotMachine
                     }
                     //////////////////////Top Right diagonal check/////////////////////////
 
-                    Logic.GameSelectionTopRightDiagonal(gameSlotsGrid);// replaced the lines of code with the method
+                    Logic.GameTopRightDiagonal(gameSlotsGrid);// replaced the lines of code with the method
 
                     if (allDiagonalMatch)
                     {
@@ -199,9 +202,11 @@ namespace SlotMachine
                         }
                     }
                     while (!isTheSelectionValidForReplay); // loop until true
-
-                    Console.WriteLine("place you bets:");
+                    Ui_Methods.PromptingUserToPlaceBet();
+                 
                     playerBet = Convert.ToInt32(Console.ReadLine()); // gets the bet amount from user
+                    
+                    Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney();
                     PLAYER_MONEY -= playerBet; // takes away from User money total
                 }
 
