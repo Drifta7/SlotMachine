@@ -11,12 +11,12 @@ namespace SlotMachine
 
 
             bool quit = false;
-
             bool numberHasMatched = false; // bool set to false
-
             bool haveTheNumbersMatched;
 
             int[,] gameSlotsGrid = new int[3, 3]; // 3x3 2d grid 
+
+
 
             int PLAYER_MONEY = 500;
             Ui_Methods.DisplayCurrentAmountOfMoney();
@@ -24,7 +24,7 @@ namespace SlotMachine
             Ui_Methods.PromptingUserToSelectGameMode();
 
             //left off here!
-            int gameSelection; // input game selection
+            int gameSelection = 0; // input game selection
             string userInput = Console.ReadLine();
 
             bool istheSelectionValid = false;
@@ -34,128 +34,143 @@ namespace SlotMachine
 
             Ui_Methods.PromptingUserToPlaceBet();
 
-            haveTheNumbersMatched = Logic.CheckForWin(gameSlotsGrid); // left off here 
+            haveTheNumbersMatched = Logic.CheckForWin(gameSlotsGrid); // not sure if Im going to use this 
 
             Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney();
             PLAYER_MONEY -= playerBet;
 
-            //Console.WriteLine($"Balance is now: {PLAYER_MONEY}"); // amount after the player has bet
+
             Ui_Methods.DisplayingPlayerBalanceUpdate();
-
-
-            //Random range = new Random(); // this is the random seed 
-
             bool gameModeRestart = false;
             bool numbersHasMactched = false;
 
             while (!quit || !gameModeRestart) // loop within the methods
             {
-                Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid); // correct!
+                Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid);
 
                 /////////////////////////////////////////////////////////////////////////////
 
+                string TheUserInput = Ui_Methods.UserInput(); // this will get the user input
 
                 /////// Rows game check ///////////////
+
+                Logic.ValidatingByParsingTheUserInput(TheUserInput, gameSelection); // this will check if the user input is valid
+                
                 if (ConstantVars.gameSelection == ConstantVars.SELECT_ROWS_GAME)
                 {
-                    bool allMatch = Logic.GameRowsCheck(gameSlotsGrid);
+                    bool allMatch = Logic.RowsGameCheck(gameSlotsGrid);
 
                     if (allMatch) // if all number in a row match is true
                     {
                         Ui_Methods.DisplayingWinningsAndBonusesToTheUser();
                         numberHasMatched = true;
                         gameModeRestart = true;
+                        Ui_Methods.PromptingUserToPlaceBet();
                         break; // add this after the method call
                     }
                 }
-                
+
                 if (!numberHasMatched)
                 {
                     Ui_Methods.DisplayingTheNumbersDoNotMatchMessage(); // replaced here because lines of code were repeated
                     Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(); // this will display the players balance after the game has been played
+
+                    Ui_Methods.PromptingUserToPlaceBet();
                     gameModeRestart = true;
 
                 }
 
                 /////////////////////////////////CenterLine check/////////////////////////////////////////
 
+                Logic.ValidatingByParsingTheUserInput(TheUserInput, gameSelection); // this will check if the user input is valid
                 if (ConstantVars.gameSelection == ConstantVars.SELECT_CENTER_LINE_GAME)
                 {
-                    bool CenterArrayMatches = Logic.GameCenterLineCheck(gameSlotsGrid); // replaced the lines of code with the method
+                    bool CenterArrayMatches = Logic.CenterLineGameCheck(gameSlotsGrid); // replaced the lines of code with the method
 
                     if (CenterArrayMatches)
                     {
                         Ui_Methods.DisplayingWinningsAndBonusesToTheUser(); // replaced here because lines of code were repeated
+                        Ui_Methods.PromptingUserToPlaceBet();
                         gameModeRestart = true;
                     }
                     else
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();// replaced the lines of code with the method
                         Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney();
+                        Ui_Methods.PromptingUserToPlaceBet();
+
                         gameModeRestart = true;
                     }
                 }
-
+                
+                Logic.ValidatingByParsingTheUserInput(TheUserInput, gameSelection); // this will check if the user input is valid
                 if (ConstantVars.gameSelection == ConstantVars.SELECT_COLOUMNS_GAME)
                 {
+                    bool numbersHaveMatched = Logic.ColumnsGameCheck(gameSlotsGrid);// 
 
-                    bool numbersHaveMatched = Logic.GameColumnsCheck(gameSlotsGrid);// 
-                    
-                        if (haveTheNumbersMatched) // if all number in a cols match is true
-                        {
-                            Ui_Methods.DisplayPlayerWinningBetMessage(); // replaced here because lines of code were repeated
-                            gameModeRestart = true;
-                        }
-                    
+                    if (haveTheNumbersMatched) // if all number in a cols match is true
+                    {
+                        Ui_Methods.DisplayPlayerWinningBetMessage(); // replaced here because lines of code were repeated
+                        Ui_Methods.PromptingUserToPlaceBet();
+
+                        gameModeRestart = true;
+                    }
+
                     if (!numbersHasMactched)
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
+                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(); // this will display the players balance after the game has been played
+                        Ui_Methods.PromptingUserToPlaceBet();
+
                         gameModeRestart = true;
                     }
                 }
                 ///////////////// Top Left diagonal check/////////////////
-
+               
+                Logic.ValidatingByParsingTheUserInput(TheUserInput, gameSelection); // this will check if the user input is valid
                 if (ConstantVars.gameSelection == ConstantVars.SELECT_DIAGONAL_GAME)
                 {
-                    bool allDiagonalMatch = Logic.GameTopLeftDiagonalCheck(gameSlotsGrid); // replaced the lines of code with the method
+                    bool allDiagonalMatch = Logic.TopLeftDiagonalGameCheck(gameSlotsGrid); // replaced the lines of code with the method
 
                     if (allDiagonalMatch)
                     {
                         Ui_Methods.DisplayPlayerWinningBetMessage(); // placed here becasue the method does the same thing 
+                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser();
+                        Ui_Methods.PromptingUserToPlaceBet();
+
                         gameModeRestart = true;
                     }
-                   
+
                     if (!allDiagonalMatch) //this is needed do not delete allDiagonalMatch ///Left off here!!!
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();// replaced the lines of code with the method
+                        Ui_Methods.PromptingUserToPlaceBet();
                         gameModeRestart = true;
                     }
+
                     //////////////////////Top Right diagonal check/////////////////////////
+                   
+                    Logic.ValidatingByParsingTheUserInput(TheUserInput, gameSelection); // this will check if the user input is valid
+                    bool allRightDiagonalMatch = Logic.TopRightDiagonalGameCheck(gameSlotsGrid);// replaced the lines of code with the method
 
-                    Logic.GameTopRightDiagonal(gameSlotsGrid);// replaced the lines of code with the method
-
-                    if (allDiagonalMatch)
+                    if (allRightDiagonalMatch)
                     {
                         Ui_Methods.DisplayPlayerWinningBetMessage();
+                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser();
+                        Ui_Methods.PromptingUserToPlaceBet();
+
                         gameModeRestart = true;
                     }
-                    
-                    if (!allDiagonalMatch)
+
+                    if (!allRightDiagonalMatch)
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
+                        Ui_Methods.PromptingUserToPlaceBet();
+
                         gameModeRestart = true;
                     }
                     ///////////////////////////////////////////////
-                    if (numbersHasMactched)
-                    {
-                        Ui_Methods.DisplayPlayerWinningBetMessage();
-                        gameModeRestart = true;
-                    }
 
-                    else
-                    {
-                        Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
-                    }
                 }
 
                 Ui_Methods.PromptingUserToClearTheSlotsGrid();
@@ -170,44 +185,7 @@ namespace SlotMachine
                 if (Ui_Methods.PlayerToContinueSelection() == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT)
                 {
                     Ui_Methods.DisplayingPlayerContinueGameMessage();
-                    Console.WriteLine($"Select your Game: {ConstantVars.SELECT_ROWS_GAME}: Rows {ConstantVars.SELECT_COLOUMNS_GAME}: Columns {ConstantVars.SELECT_DIAGONAL_GAME}: Diagonal {ConstantVars.SELECT_CENTER_LINE_GAME}: Center ");
-
-                    Ui_Methods.UserInput();
-
-                    int gameSelectionReplay; // input game selection
-                    bool isTheSelectionValidForReplay = false;
-                    
-                    do // this will check if the user input is valid
-                    {
-
-                        if (Int32.TryParse(userInput, out gameSelectionReplay)) // this will catch the user input if it is invalid
-                        {
-                            if (gameSelectionReplay == ConstantVars.SELECT_ROWS_GAME || gameSelectionReplay == ConstantVars.SELECT_COLOUMNS_GAME
-                             || gameSelectionReplay == ConstantVars.SELECT_DIAGONAL_GAME || gameSelectionReplay == ConstantVars.SELECT_CENTER_LINE_GAME)
-
-                            {
-                                Console.WriteLine($"you've have selected {gameSelectionReplay}");
-                                isTheSelectionValidForReplay = true; // bool set to true and selection is valid
-                            }
-                            else // this catches incorrect number inputs
-                            {
-                                Console.WriteLine("NUMBER ERROR! This is not the correct selection, Please try again"); // if the selection is not true
-                                userInput = Console.ReadLine();
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Please enter a vaild number ");
-                            userInput = Console.ReadLine();
-                        }
-                    }
-                    while (!isTheSelectionValidForReplay); // loop until true
-                    Ui_Methods.PromptingUserToPlaceBet();
-                 
-                    playerBet = Convert.ToInt32(Console.ReadLine()); // gets the bet amount from user
-                    
                     Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney();
-                    PLAYER_MONEY -= playerBet; // takes away from User money total
                 }
 
                 if (Ui_Methods.PlayerToContinueSelection() == ConstantVars.PLAYER_TO_CONTINUE_DECLINE || PLAYER_MONEY <= 0) // check if player has selected n or had bet all of the money

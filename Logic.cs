@@ -42,7 +42,7 @@ namespace SlotMachine
         ////////////////////////-------------//////////////////////-------------------////////////////------------
         
 
-        public static void ValidatingByParsingTheUserInput(string userInput, int gameSelection)
+        public static void ValidatingByParsingTheUserInput(string userInput, int gameSelection) // use this method to check if the user input is valid
         {
             bool istheSelectionValid = false; // this is the bool that will be used to check if the user input is valid
             
@@ -71,7 +71,7 @@ namespace SlotMachine
             while (!istheSelectionValid); // loop until true
         }
         /////-------------------////////////////------------////////////-----------/////////----------////////  -----------------------
-        public static bool GameRowsCheck(int[,] grid)
+        public static bool RowsGameCheck(int[,] grid)
         {
             if (ConstantVars.gameSelection == ConstantVars.SELECT_ROWS_GAME)
             {
@@ -100,7 +100,7 @@ namespace SlotMachine
             return false;
         }
         ////////////////------------////////////-----------/////////----------////////  -----------------------
-        public static bool GameColumnsCheck(int[,] grid)
+        public static bool ColumnsGameCheck(int[,] grid)
         {
             
             // loops cols checks through the grid
@@ -126,7 +126,7 @@ namespace SlotMachine
         }
 
         ////////////////------------////////////-----------/////////----------////////  -----------------------/////////
-        public static bool GameTopLeftDiagonalCheck(int[,] grid) // logic issue with this 2 sets of if condtions with in logic and the Program
+        public static bool TopLeftDiagonalGameCheck(int[,] grid) // logic issue with this 2 sets of if condtions with in logic and the Program
         {
             if (ConstantVars.gameSelection == ConstantVars.SELECT_DIAGONAL_GAME)
             {
@@ -151,7 +151,7 @@ namespace SlotMachine
 
         ////////////////------------////////////-----------/////////----------////////  -----------------------
 
-        public static bool GameTopRightDiagonal(int[,] grid)
+        public static bool TopRightDiagonalGameCheck(int[,] grid)
         {
             if (ConstantVars.gameSelection == ConstantVars.SELECT_TOP_RIGHT_DIAGONAL_GAME)
             {
@@ -174,7 +174,7 @@ namespace SlotMachine
         }
         ////////////////------------////////////-----------/////////----------////////  -----------------------
 
-        public static bool GameCenterLineCheck(int[,] grid)
+        public static bool CenterLineGameCheck(int[,] grid)
         {
             int firstCenterValue = grid[1, 0];
             bool CenterArrayMatches = true;
@@ -193,10 +193,10 @@ namespace SlotMachine
             return false; // if no match is found
         }
         
-        public static bool CheckForWin(int[,] grid)
+        public static bool CheckForWin(int[,] grid) // This Method check for a win, If the condition is met it will return true
         {
-            return GameRowsCheck(grid) || GameColumnsCheck(grid) || GameTopLeftDiagonalCheck(grid)
-                    || GameTopRightDiagonal(grid) || GameCenterLineCheck(grid);
+            return RowsGameCheck(grid) || ColumnsGameCheck(grid) || TopLeftDiagonalGameCheck(grid)
+                    || TopRightDiagonalGameCheck(grid) || CenterLineGameCheck(grid);
         }
     }
 }
