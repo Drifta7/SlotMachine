@@ -24,11 +24,5 @@ namespace SlotMachine
         public const int LOW = 0; // const low number 
         public const int HIGH = 9; // since 9 is the biggest "ones"
         public static int PLAYER_MONEY = 500; // default
-
-        public static int playerBet;
-        public static int gameSelection;
-
-        public static int retuningBothValues;
-
     }
 }

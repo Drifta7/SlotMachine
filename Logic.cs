@@ -9,8 +9,9 @@ namespace SlotMachine
 {
     class Logic
     {
-
+        // use place holder ( userinput and gameSelection) as parameters
         public static void ValidatingUserInputForGameSelection()
+
         { ////-------note there needs to be a VAR to save the PromptingUserToSelectGameMode return value into the method ----/////
             bool istheSelectionValid = false;
             string userInput = Ui_Methods.PromptingUserToSelectGameMode(); // Note place this line when by itself in the Main program
@@ -73,7 +74,7 @@ namespace SlotMachine
         /////-------------------////////////////------------////////////-----------/////////----------////////  -----------------------
         public static bool RowsGameCheck(int[,] grid)
         {
-            if (ConstantVars.gameSelection == ConstantVars.SELECT_ROWS_GAME)
+            if (GameVariables.gameSelection == ConstantVars.SELECT_ROWS_GAME)
             {
                 bool numberHasMatched = false; // bool set to false
                                                // the  loops rows checks through the grid
@@ -128,7 +129,7 @@ namespace SlotMachine
         ////////////////------------////////////-----------/////////----------////////  -----------------------/////////
         public static bool TopLeftDiagonalGameCheck(int[,] grid) // logic issue with this 2 sets of if condtions with in logic and the Program
         {
-            if (ConstantVars.gameSelection == ConstantVars.SELECT_DIAGONAL_GAME)
+            if (GameVariables.gameSelection == ConstantVars.SELECT_DIAGONAL_GAME)
             {
                 int firstDiagonalValue = grid[0, 0]; // start the check with firstDiagonalValue in the loop 
                 bool allDiagonalMatch = true; // bool set to true
@@ -153,7 +154,7 @@ namespace SlotMachine
 
         public static bool TopRightDiagonalGameCheck(int[,] grid)
         {
-            if (ConstantVars.gameSelection == ConstantVars.SELECT_TOP_RIGHT_DIAGONAL_GAME)
+            if (GameVariables.gameSelection == ConstantVars.SELECT_TOP_RIGHT_DIAGONAL_GAME)
             {
                 bool allDiagonalMatch = true;
                 int firstDiagonalValue = grid[0, 0];

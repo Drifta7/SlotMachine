@@ -28,8 +28,8 @@ namespace SlotMachine
         }
         public static string PlayerToContinueSelection()
         {
-            Console.WriteLine("Would you like to continue?...."  );
-            string PlayerToContinueSelection = Console.ReadLine().ToLower();// gets user input for selection: (Y/N)
+            Console.WriteLine("Would you like to continue?....");
+            string PlayerToContinueSelection = Console.ReadLine().ToLower(); // gets user input for selection: (Y/N)
             return PlayerToContinueSelection;
         }
         public static string PromptingUserToSelectGameMode()
@@ -52,8 +52,8 @@ namespace SlotMachine
         public static void PromptingUserToPlaceBet()
         {
             Console.WriteLine("Place your Bet:");
-            ConstantVars.playerBet = Convert.ToInt32(Console.ReadLine()); // user inputs bet
-            ConstantVars.PLAYER_MONEY -= ConstantVars.playerBet; // takes away from User money total
+            GameVariables.playerBet = Convert.ToInt32(Console.ReadLine()); // user inputs bet
+            ConstantVars.PLAYER_MONEY -= GameVariables.playerBet; // takes away from User money total
         }
 
         public static string PromptingUserToContinueGame()
@@ -79,7 +79,6 @@ namespace SlotMachine
         {
             ConstantVars.PLAYER_MONEY += ConstantVars.WINNING_BET + ConstantVars.BONUS;
             Console.WriteLine($"You've Won Wining bet: ${ConstantVars.WINNING_BET} + Bonus: ${ConstantVars.BONUS}");
-            bool gameModeRestart = true; // use this in the new main file program // use this in the actual program gameModeRestart = false;
         }
 
         public static void PromptingUserToClearTheSlotsGrid()
@@ -92,9 +91,9 @@ namespace SlotMachine
 
         public static int DisplayingTotalDifferenceOfAmountOfMoney() // might have to change this to return a value
         {
-            ConstantVars.retuningBothValues = ConstantVars.PLAYER_MONEY -= ConstantVars.playerBet;
-            Console.WriteLine($"You Have this much {ConstantVars.retuningBothValues}");
-            return ConstantVars.retuningBothValues;
+            GameVariables.retuningBothValues = ConstantVars.PLAYER_MONEY -= GameVariables.playerBet;
+            Console.WriteLine($"You Have this much {GameVariables.retuningBothValues}");
+            return GameVariables.retuningBothValues;
         }
         public static void DisplayingSlotGameGrid(int[,] grid)
         {
@@ -118,7 +117,7 @@ namespace SlotMachine
                 Console.WriteLine($"Select your Game: {ConstantVars.SELECT_ROWS_GAME}: Rows {ConstantVars.SELECT_COLOUMNS_GAME}: Columns {ConstantVars.SELECT_DIAGONAL_GAME}: Diagonal {ConstantVars.SELECT_CENTER_LINE_GAME}: Center ");
                 string userInput = Ui_Methods.UserInput();
                 int gameSelectionReplay; // input game selection
-              
+
                 bool istheSelectionValidReplay = false;
                 do // this will check if the user input is valid
                 {
