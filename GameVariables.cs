@@ -8,9 +8,9 @@ namespace SlotMachineRefactored
 {
     class GameVariables
     {
-        public static int retuningBothValues;
-        public static int playerBet;
-        public static int gameSelection; // replace the gameSelection variable with this one
+        //public static int retuningBothValues;
+        //public static int playerBet;
+        //public static int gameSelection; // replace the gameSelection variable with this one
 
     }
 }

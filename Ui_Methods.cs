@@ -18,13 +18,13 @@ namespace SlotMachine
             Console.WriteLine($"You've Won Winning bet: ${ConstantVars.WINNING_BET} + Bonus: ${ConstantVars.BONUS}");
         }
 
-        public static void DisplayingPlayerBalanceUpdate()
+        public static void DisplayingPlayerBalanceUpdate(int userbalance)
         {
-            Console.WriteLine($"Balance is now: {ConstantVars.PLAYER_MONEY}"); // amount after the player has bet
+            Console.WriteLine($"Balance is now: ${userbalance}"); // amount after the player has bet PLayer money isn't a constant
         }
-        public static void DisplayCurrentAmountOfMoney()
+        public static void DisplayCurrentAmountOfMoney(int amount)
         {
-            Console.WriteLine($"You have {ConstantVars.PLAYER_MONEY}!");
+            Console.WriteLine($"You have ${amount} "); // amount after the player has bet                                               
         }
         public static string PlayerToContinueSelection()
         {
@@ -34,7 +34,12 @@ namespace SlotMachine
         }
         public static string PromptingUserToSelectGameMode()
         {
-            Console.WriteLine($"Select your Game: {ConstantVars.SELECT_ROWS_GAME}:ROWS {ConstantVars.SELECT_COLOUMNS_GAME}:COLOUMS {ConstantVars.SELECT_DIAGONAL_GAME}:DIAGONAL {ConstantVars.SELECT_CENTER_LINE_GAME}:CENTER");
+            Console.WriteLine($"Select your Game: " +
+                $"{ConstantVars.SELECT_ROWS_GAME}:ROWS " +
+                $"{ConstantVars.SELECT_COLOUMNS_GAME}:COLOUMS " +
+                $"{ConstantVars.SELECT_DIAGONAL_GAME}:DIAGONAL " +
+                $"{ConstantVars.SELECT_CENTER_LINE_GAME}:CENTER");
+            
             string UserSelection = Console.ReadLine();
             return UserSelection;
         }
@@ -49,11 +54,27 @@ namespace SlotMachine
             return UserInputIntoSelection;
         }
 
-        public static void PromptingUserToPlaceBet()
+        public static int GetUserBet()
         {
-            Console.WriteLine("Place your Bet:");
-            GameVariables.playerBet = Convert.ToInt32(Console.ReadLine()); // user inputs bet
-            ConstantVars.PLAYER_MONEY -= GameVariables.playerBet; // takes away from User money total
+                Console.WriteLine("Place your Bet:");
+                int input = Convert.ToInt32(Console.ReadLine()); // user inputs bet
+            do
+            {
+                if (input < 0) // Checks to see if the user input is less than 0
+                {
+                    Console.WriteLine("Invalid Amount");
+                    input = Convert.ToInt32(Console.ReadLine()); // user inputs bet
+                }
+            }
+            while (input > 0); // if the input is greater than 0
+            return input;
+
+            //GameVariables.playerBet = Convert.ToInt32(Console.ReadLine()); // user inputs bet
+            //ConstantVars.PLAYER_MONEY -= GameVariables.playerBet; // takes away from User money total
+        }
+        public static void DisplayingBetMessage()
+        {
+            Console.WriteLine("Place your Bet");
         }
 
         public static string PromptingUserToContinueGame()
@@ -62,22 +83,18 @@ namespace SlotMachine
             string UserSelection = Console.ReadLine().ToLower();
             return UserSelection;
         }
-        public static void DisplayingGameOverMessage()
+        public static void DisplayingGameOverMessage(int userBalance)
         {
-            Console.WriteLine($"Game Over bets are closed, Your total: {ConstantVars.PLAYER_MONEY}");
+            Console.WriteLine($"Game Over bets are closed, Your total: ${userBalance}");
         }
-        public static void ValidatingUserEntryToContinueGame() // not sure if im going to use this.....
-        {
-
-        }
-
+       
         public static void DisplayingAskingUserToBetAgain()
         {
             Console.WriteLine("Would you like to bet again? (Y/N)");
         }
-        public static void DisplayingWinningsAndBonusesToTheUser()
+        public static void DisplayingWinningsAndBonusesToTheUser(int UserBalance)
         {
-            ConstantVars.PLAYER_MONEY += ConstantVars.WINNING_BET + ConstantVars.BONUS;
+            UserBalance += ConstantVars.WINNING_BET + ConstantVars.BONUS;
             Console.WriteLine($"You've Won Wining bet: ${ConstantVars.WINNING_BET} + Bonus: ${ConstantVars.BONUS}");
         }
 
@@ -89,11 +106,11 @@ namespace SlotMachine
             Console.Clear(); // reset the Grid.
         }
 
-        public static int DisplayingTotalDifferenceOfAmountOfMoney() // might have to change this to return a value
+        public static int DisplayingTotalDifferenceOfAmountOfMoney(int Money, int userBetVar) // might have to change this to return a value
         {
-            GameVariables.retuningBothValues = ConstantVars.PLAYER_MONEY -= GameVariables.playerBet;
-            Console.WriteLine($"You Have this much {GameVariables.retuningBothValues}");
-            return GameVariables.retuningBothValues;
+            int retuningBothValues = Money-= userBetVar;
+            Console.WriteLine($"You Have this much {retuningBothValues}");
+            return retuningBothValues;
         }
         public static void DisplayingSlotGameGrid(int[,] grid)
         {
@@ -142,9 +159,46 @@ namespace SlotMachine
                 }
                 while (!istheSelectionValidReplay); // loop until true
 
-                PromptingUserToPlaceBet(); // this will ask the user to place a bet
+                GetUserBet(); // this will ask the user to place a bet
             }
         }
+
+        public static int GetValidGameMode()
+        {
+            bool istheSelectionValid = false; // this is the bool that will be used to check if the user input is valid
+
+            string userInput = "";
+            int gameSelection;
+            do // this will check if the user input is valid
+            {
+                userInput = Console.ReadLine();
+                if (Int32.TryParse(userInput, out gameSelection)) // this will catch the user input 
+                {
+                    if (gameSelection == ConstantVars.SELECT_ROWS_GAME ||
+                        gameSelection == ConstantVars.SELECT_COLOUMNS_GAME ||
+                        gameSelection == ConstantVars.SELECT_DIAGONAL_GAME ||
+                        gameSelection == ConstantVars.SELECT_CENTER_LINE_GAME)
+                    {
+                        Console.WriteLine($"you've have selected {gameSelection}");
+                        istheSelectionValid = true; // bool set to true and selection is valid
+                    }
+                    else
+                    {
+                        Console.WriteLine(" ERROR! This is not the correct selection, Please try again"); // if the selection is not true
+                        userInput = Console.ReadLine();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Please enter a vaild number ");
+                    userInput = Console.ReadLine();
+                }
+            }
+            while (!istheSelectionValid); // loop until true
+
+            return gameSelection; // return the valid game selection
+        }
+
     }
 }
 
