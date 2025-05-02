@@ -43,7 +43,7 @@ namespace SlotMachine
 
                 Ui_Methods.DisplayingBetMessage(); // change this again to selecting game mode
 
-                string TheUserInput = Ui_Methods.UserInput(); // this will get the user input THERE IS A DISCONNECT HERE!!!!!!!!!!!!!
+                string TheUserInput = Ui_Methods.UserInput(); // this will get the user input THERE IS A DISCONNECT HERE!!!!!!!!!!
 
                 Ui_Methods.GetValidGameMode(); // this will check if the user input is valid
 
@@ -88,7 +88,7 @@ namespace SlotMachine
 
                         if (!CenterArrayMatches)
                         {
-                            Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();// replaced the lines of code with the method
+                            Ui_Methods.DisplayingTheNumbersDoNotMatchMessage(); // replaced the lines of code with the method
                             Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet);
                             Ui_Methods.GetUserBet();
 

@@ -58,15 +58,15 @@ namespace SlotMachine
         {
                 Console.WriteLine("Place your Bet:");
                 int input = Convert.ToInt32(Console.ReadLine()); // user inputs bet
-            do
-            {
+            
+            
                 if (input < 0) // Checks to see if the user input is less than 0
                 {
                     Console.WriteLine("Invalid Amount");
                     input = Convert.ToInt32(Console.ReadLine()); // user inputs bet
                 }
-            }
-            while (input > 0); // if the input is greater than 0
+            
+            // if the input is greater than 0
             return input;
 
             //GameVariables.playerBet = Convert.ToInt32(Console.ReadLine()); // user inputs bet
@@ -167,11 +167,11 @@ namespace SlotMachine
         {
             bool istheSelectionValid = false; // this is the bool that will be used to check if the user input is valid
 
-            string userInput = "";
+            string userInput = Ui_Methods.UserInput();
             int gameSelection;
             do // this will check if the user input is valid
             {
-                userInput = Console.ReadLine();
+                //userInput = Console.ReadLine();
                 if (Int32.TryParse(userInput, out gameSelection)) // this will catch the user input 
                 {
                     if (gameSelection == ConstantVars.SELECT_ROWS_GAME ||
