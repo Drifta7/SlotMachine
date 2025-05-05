@@ -12,6 +12,7 @@ namespace SlotMachine
         /////-------------------////////////////------------////////////-----------/////////----------////////  -----------------------
         public static bool RowsGameCheck(int[,] grid, int gameChoice) // in the brackets add an "int" to replace gameSelection
         {
+            
             if (gameChoice == ConstantVars.SELECT_ROWS_GAME)
             {
                 bool numberHasMatched = false; // bool set to false
@@ -69,7 +70,7 @@ namespace SlotMachine
         ////////////////------------////////////-----------/////////----------////////  -----------------------/////////
         public static bool TopLeftDiagonalGameCheck(int[,] grid, int gameChoice) // logic issue with this 2 sets of if condtions with in logic and the Program
         {
-            if (gameChoice == ConstantVars.SELECT_DIAGONAL_GAME)
+            if (gameChoice == ConstantVars.SELECT_TOP_LEFT_DIAGONAL_GAME)
             {
                 int firstDiagonalValue = grid[0, 0]; // start the check with firstDiagonalValue in the loop 
                 bool allDiagonalMatch = true; // bool set to true

@@ -10,7 +10,7 @@ namespace SlotMachine
     {
         public const int SELECT_ROWS_GAME = 1; // select for Rows
         public const int SELECT_COLOUMNS_GAME = 2; //select for Columns
-        public const int SELECT_DIAGONAL_GAME = 3;// select for Diagonals
+        public const int SELECT_TOP_LEFT_DIAGONAL_GAME = 3;// select for Diagonals
         public const int SELECT_TOP_RIGHT_DIAGONAL_GAME = 4;
         public const int SELECT_CENTER_LINE_GAME = 5; // select Center row
 

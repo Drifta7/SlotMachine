@@ -22,27 +22,14 @@ namespace SlotMachine
         {
             Console.WriteLine($"Balance is now: ${userbalance}"); // amount after the player has bet PLayer money isn't a constant
         }
-        public static void DisplayCurrentAmountOfMoney(int amount)
-        {
-            Console.WriteLine($"You have ${amount} "); // amount after the player has bet                                               
-        }
+
         public static string PlayerToContinueSelection()
         {
             Console.WriteLine("Would you like to continue?....");
             string PlayerToContinueSelection = Console.ReadLine().ToLower(); // gets user input for selection: (Y/N)
             return PlayerToContinueSelection;
         }
-        public static string PromptingUserToSelectGameMode()
-        {
-            Console.WriteLine($"Select your Game: " +
-                $"{ConstantVars.SELECT_ROWS_GAME}:ROWS " +
-                $"{ConstantVars.SELECT_COLOUMNS_GAME}:COLOUMS " +
-                $"{ConstantVars.SELECT_DIAGONAL_GAME}:DIAGONAL " +
-                $"{ConstantVars.SELECT_CENTER_LINE_GAME}:CENTER");
-            
-            string UserSelection = Console.ReadLine();
-            return UserSelection;
-        }
+
         public static void DisplayingTheNumbersDoNotMatchMessage()
         {
             Console.WriteLine("The numbers do not match");
@@ -56,38 +43,28 @@ namespace SlotMachine
 
         public static int GetUserBet()
         {
-                Console.WriteLine("Place your Bet:");
-                int input = Convert.ToInt32(Console.ReadLine()); // user inputs bet
-            
-            
-                if (input < 0) // Checks to see if the user input is less than 0
-                {
-                    Console.WriteLine("Invalid Amount");
-                    input = Convert.ToInt32(Console.ReadLine()); // user inputs bet
-                }
-            
+            Console.WriteLine("Place your Bet:");
+            int input = Convert.ToInt32(Console.ReadLine()); // user inputs bet
+
+
+            if (input < 0) // Checks to see if the user input is less than 0
+            {
+                Console.WriteLine("Invalid Amount");
+                input = Convert.ToInt32(Console.ReadLine()); // user inputs bet
+            }
+
             // if the input is greater than 0
             return input;
 
             //GameVariables.playerBet = Convert.ToInt32(Console.ReadLine()); // user inputs bet
             //ConstantVars.PLAYER_MONEY -= GameVariables.playerBet; // takes away from User money total
         }
-        public static void DisplayingBetMessage()
-        {
-            Console.WriteLine("Place your Bet");
-        }
 
-        public static string PromptingUserToContinueGame()
-        {
-            Console.WriteLine("Do you want to continue? (Y/N)");
-            string UserSelection = Console.ReadLine().ToLower();
-            return UserSelection;
-        }
         public static void DisplayingGameOverMessage(int userBalance)
         {
             Console.WriteLine($"Game Over bets are closed, Your total: ${userBalance}");
         }
-       
+
         public static void DisplayingAskingUserToBetAgain()
         {
             Console.WriteLine("Would you like to bet again? (Y/N)");
@@ -108,7 +85,7 @@ namespace SlotMachine
 
         public static int DisplayingTotalDifferenceOfAmountOfMoney(int Money, int userBetVar) // might have to change this to return a value
         {
-            int retuningBothValues = Money-= userBetVar;
+            int retuningBothValues = Money -= userBetVar;
             Console.WriteLine($"You Have this much {retuningBothValues}");
             return retuningBothValues;
         }
@@ -131,7 +108,7 @@ namespace SlotMachine
 
             if (Ui_Methods.PlayerToContinueSelection() == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT)
             {
-                Console.WriteLine($"Select your Game: {ConstantVars.SELECT_ROWS_GAME}: Rows {ConstantVars.SELECT_COLOUMNS_GAME}: Columns {ConstantVars.SELECT_DIAGONAL_GAME}: Diagonal {ConstantVars.SELECT_CENTER_LINE_GAME}: Center ");
+                Console.WriteLine($"Select your Game: {ConstantVars.SELECT_ROWS_GAME}: Rows {ConstantVars.SELECT_COLOUMNS_GAME}: Columns {ConstantVars.SELECT_TOP_LEFT_DIAGONAL_GAME}: Diagonal {ConstantVars.SELECT_CENTER_LINE_GAME}: Center ");
                 string userInput = Ui_Methods.UserInput();
                 int gameSelectionReplay; // input game selection
 
@@ -140,7 +117,11 @@ namespace SlotMachine
                 {
                     if (Int32.TryParse(userInput, out gameSelectionReplay)) // this will catch the user input if it is invalid
                     {
-                        if (gameSelectionReplay == ConstantVars.SELECT_ROWS_GAME || gameSelectionReplay == ConstantVars.SELECT_COLOUMNS_GAME || gameSelectionReplay == ConstantVars.SELECT_DIAGONAL_GAME || gameSelectionReplay == ConstantVars.SELECT_CENTER_LINE_GAME)
+                        if (gameSelectionReplay == ConstantVars.SELECT_ROWS_GAME ||
+                            gameSelectionReplay == ConstantVars.SELECT_COLOUMNS_GAME ||
+                            gameSelectionReplay == ConstantVars.SELECT_TOP_LEFT_DIAGONAL_GAME ||
+                            gameSelectionReplay == ConstantVars.SELECT_TOP_RIGHT_DIAGONAL_GAME ||
+                            gameSelectionReplay == ConstantVars.SELECT_CENTER_LINE_GAME)
                         {
                             Console.WriteLine($"you've have selected {gameSelectionReplay}");
                             istheSelectionValidReplay = true; // bool set to true and selection is valid
@@ -166,6 +147,12 @@ namespace SlotMachine
         public static int GetValidGameMode()
         {
             bool istheSelectionValid = false; // this is the bool that will be used to check if the user input is valid
+            Console.WriteLine($"Select your Game: " +
+               $"{ConstantVars.SELECT_ROWS_GAME}:ROWS " +
+               $"{ConstantVars.SELECT_COLOUMNS_GAME}:COLOUMS " +
+               $"{ConstantVars.SELECT_TOP_LEFT_DIAGONAL_GAME}:DIAGONAL " +
+               $"{ConstantVars.SELECT_TOP_RIGHT_DIAGONAL_GAME}:TOP RIGHT DIAGONAL " +
+               $"{ConstantVars.SELECT_CENTER_LINE_GAME}:CENTER");
 
             string userInput = Ui_Methods.UserInput();
             int gameSelection;
@@ -176,10 +163,11 @@ namespace SlotMachine
                 {
                     if (gameSelection == ConstantVars.SELECT_ROWS_GAME ||
                         gameSelection == ConstantVars.SELECT_COLOUMNS_GAME ||
-                        gameSelection == ConstantVars.SELECT_DIAGONAL_GAME ||
+                        gameSelection == ConstantVars.SELECT_TOP_LEFT_DIAGONAL_GAME ||
+                        gameSelection == ConstantVars.SELECT_TOP_RIGHT_DIAGONAL_GAME ||
                         gameSelection == ConstantVars.SELECT_CENTER_LINE_GAME)
                     {
-                        Console.WriteLine($"you've have selected {gameSelection}");
+                        Console.WriteLine($"you've have selected Game Mode{gameSelection}");
                         istheSelectionValid = true; // bool set to true and selection is valid
                     }
                     else
