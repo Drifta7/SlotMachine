@@ -15,7 +15,6 @@ namespace SlotMachine
             bool numberHasMatched = false; // bool set to false
             bool haveTheNumbersMatched = false;
 
-
             int[,] gameSlotsGrid = new int[3, 3]; // 3x3 2d grid 
 
             int playerMoney = 500;
@@ -26,14 +25,11 @@ namespace SlotMachine
             int userBet = Ui_Methods.GetUserBet();
             playerMoney -= userBet;
 
-
             Ui_Methods.DisplayingPlayerBalanceUpdate(playerMoney); 
-
-
-           
            
             while (!quit) 
             {
+                //////////////////ROWS GAME CHECK///////////////////////////////
                 int selectedGameMode = Ui_Methods.GetValidGameMode();
 
                 if (selectedGameMode == ConstantVars.SELECT_ROWS_GAME) 
@@ -48,7 +44,6 @@ namespace SlotMachine
                         numberHasMatched = true;
                         quit = true;
                         Ui_Methods.GetUserBet();
-
                     }
 
                     if (!numberHasMatched)
@@ -70,10 +65,9 @@ namespace SlotMachine
                     if (haveTheNumbersMatched) // if all number in a cols match is true
                     {
 
-                        Ui_Methods.DisplayPlayerWinningBetMessage(); // replaced here because lines of code were repeated
+                        Ui_Methods.DisplayPlayerWinningBetMessage(); 
                         Ui_Methods.DisplayingWinningsAndBonusesToTheUser(playerMoney);
-                        Ui_Methods.GetUserBet();
-
+                        
                         quit = true;
                     }
 
@@ -81,14 +75,12 @@ namespace SlotMachine
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
                         Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet); // this will display the players balance after the game has been played
-                        Ui_Methods.GetUserBet();
-
+                     
                         quit = true;
                     }
                 }
                 /////////////////////// CenterLine game check/////////////////////////////////////////
 
-                
                 if (selectedGameMode == ConstantVars.SELECT_CENTER_LINE_GAME)
                 {
                     Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid);// this will display the grid
@@ -98,8 +90,7 @@ namespace SlotMachine
                     {
                         Ui_Methods.DisplayPlayerWinningBetMessage();
                         Ui_Methods.DisplayingWinningsAndBonusesToTheUser(playerMoney); // replaced here because lines of code were repeated
-                        Ui_Methods.GetUserBet();
-
+                       
                         quit = true;
                     }
 
@@ -107,14 +98,12 @@ namespace SlotMachine
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage(); // replaced the lines of code with the method
                         Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet);
-                        Ui_Methods.GetUserBet();
-
+                       
                         quit = true;
                     }
                 }
 
-
-                //Ui_Methods.GetValidGameMode();  // this will check if the user input is valid
+                /////////////////////// TOP RIGHT DIAGONAL check/////////////////////////////////////////
                 if (selectedGameMode == ConstantVars.SELECT_TOP_RIGHT_DIAGONAL_GAME)
                 {
                     Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid);
@@ -124,23 +113,20 @@ namespace SlotMachine
                     {
                         Ui_Methods.DisplayPlayerWinningBetMessage();
                         Ui_Methods.DisplayingWinningsAndBonusesToTheUser(playerMoney);
-                        Ui_Methods.GetUserBet();
-
+                        
                         quit = true;
                     }
                     if (!allDiagonalMatch)
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
                         Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet);
-                        Ui_Methods.GetUserBet();
-
+                       
                         quit = true;
                     }
                 }
+
                 ///////////////// Top Left diagonal check/////////////////
-
-                // Ui_Methods.GetValidGameMode(); // this will check if the user input is valid
-
+                
                 if (selectedGameMode == ConstantVars.SELECT_TOP_LEFT_DIAGONAL_GAME)
                 {
                     Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid);
@@ -150,23 +136,22 @@ namespace SlotMachine
                     {
                         Ui_Methods.DisplayPlayerWinningBetMessage(); // placed here becasue the method does the same thing 
                         Ui_Methods.DisplayingWinningsAndBonusesToTheUser(playerMoney);
-                        Ui_Methods.GetUserBet();
-
+                      
                         quit = true;
                     }
 
-                    if (!allDiagonalMatch) //this is needed do not delete allDiagonalMatch ///Left off here!!!
+                    if (!allDiagonalMatch) // if allDiagonalMatch is false
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();// replaced the lines of code with the method
                         Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet);
-                        Ui_Methods.GetUserBet();
+                        
                         quit = true;
                     }
                 }
+                
                 //////////////////////Top Right diagonal check/////////////////////////
                 if (selectedGameMode == ConstantVars.SELECT_TOP_RIGHT_DIAGONAL_GAME)
                 {
-
                     Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid);
 
                     bool allRightDiagonalMatch = Logic.TopRightDiagonalGameCheck(gameSlotsGrid, selectedGameMode);// replaced the lines of code with the method
@@ -175,8 +160,7 @@ namespace SlotMachine
                     {
                         Ui_Methods.DisplayPlayerWinningBetMessage();
                         Ui_Methods.DisplayingWinningsAndBonusesToTheUser(playerMoney);
-                        Ui_Methods.GetUserBet();
-
+                       
                         quit = true;
                     }
 
@@ -184,8 +168,7 @@ namespace SlotMachine
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
                         Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet);
-                        Ui_Methods.GetUserBet();
-
+                        
                         quit = true;
                     }
                 }
@@ -193,30 +176,26 @@ namespace SlotMachine
 
                 Ui_Methods.PromptingUserToClearTheSlotsGrid();
 
-                Ui_Methods.DisplayingPlayerBalanceUpdate(playerMoney); // this will display the players balance after the game has been played
+                Ui_Methods.DisplayingPlayerBalanceUpdate(playerMoney); 
+                
+                string DecisionMadeByUser = Ui_Methods.PlayerToContinueSelection(); //stores the user input in a variable so that the Method doesn't repeat itself
 
-
-                Ui_Methods.DisplayingAskingUserToBetAgain(); // this has the same message as the one method on line 182 fix this *
-
-                if (Ui_Methods.PlayerToContinueSelection() == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT)
+                if (DecisionMadeByUser == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT) // when selected the game continues 
                 {
-                    Ui_Methods.DisplayingPlayerContinueGameMessage(); // where the same message is at this needs to be fixed **
-                    Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet);
                     
+                    Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet);
+                   
+                    quit = false;
                 }
 
-                if (Ui_Methods.PlayerToContinueSelection() == ConstantVars.PLAYER_TO_CONTINUE_DECLINE || playerMoney <= 0) // check if player has selected n or had bet all of the money
+                if (DecisionMadeByUser == ConstantVars.PLAYER_TO_CONTINUE_DECLINE || playerMoney <= 0) // checks if player has selected n or had bet all of the money
                 {
                     quit = true;
                     Ui_Methods.DisplayingGameOverMessage(playerMoney);
                 }
             }
-
-
-
         }
     }
-
 }
 
 
