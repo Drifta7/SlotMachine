@@ -1,11 +1,4 @@
-﻿using SlotMachineRefactored;
-using System;
-using System.ComponentModel.Design;
-using System.Runtime.InteropServices;
-
-
-
-namespace SlotMachine
+﻿namespace SlotMachine
 {
     class Program
     {
@@ -17,181 +10,149 @@ namespace SlotMachine
 
             int[,] gameSlotsGrid = new int[3, 3]; // 3x3 2d grid 
 
-            int playerMoney = 500;
+            int PLAYER_MONEY = 500;
             int gameSelection = 0; // input game selection
 
-            Ui_Methods.DisplayingPlayerBalanceUpdate(playerMoney);// keep
+            Ui_Methods.DisplayingPlayerBalanceUpdate(PLAYER_MONEY);// keep
 
-            int userBet = Ui_Methods.GetUserBet();
-            playerMoney -= userBet;
+            int userBet = Ui_Methods.GetUserBet(PLAYER_MONEY);
+            PLAYER_MONEY -= userBet;
 
-            Ui_Methods.DisplayingPlayerBalanceUpdate(playerMoney); 
-           
-            while (!quit) 
+            Ui_Methods.DisplayingPlayerBalanceUpdate(PLAYER_MONEY);
+
+            while (!quit)
             {
                 //////////////////ROWS GAME CHECK///////////////////////////////
                 int selectedGameMode = Ui_Methods.GetValidGameMode();
+                Ui_Methods.DisplaySlotGameGrid(gameSlotsGrid); // this will display the grid
 
-                if (selectedGameMode == ConstantVars.SELECT_ROWS_GAME) 
+                if (selectedGameMode == ConstantVars.SELECT_ROWS_GAME)
                 {
-                    Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid); // this will display the grid
-                   
-                    bool allMatch = Logic.RowsGameCheck(gameSlotsGrid, selectedGameMode);
+                    bool allMatch = Logic.CheckingRowsGame(gameSlotsGrid, selectedGameMode);
 
                     if (allMatch) // if all number in a row match is true
                     {
-                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(playerMoney);
-                        numberHasMatched = true;
-                        quit = true;
-                        Ui_Methods.GetUserBet();
+                        Ui_Methods.DisplayPlayerWinningBetMessage();
+                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(PLAYER_MONEY);
                     }
 
                     if (!numberHasMatched)
                     {
-                        Ui_Methods.DisplayingTheNumbersDoNotMatchMessage(); 
-                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet); // this will display the players balance after the game has been played
-
-                        Ui_Methods.GetUserBet();
-                        quit = true;
+                        Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
+                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(PLAYER_MONEY, userBet); // this will display the players balance after the game has been played
                     }
                 }
                 /////////////////////////////////CenterLine check/////////////////////////////////////////
 
                 if (selectedGameMode == ConstantVars.SELECT_COLOUMNS_GAME)
                 {
-                    Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid); // this will display the grid
-                    bool numbersHaveMatched = Logic.ColumnsGameCheck(gameSlotsGrid, selectedGameMode);// 
+                    bool numbersHaveMatched = Logic.CheckingColumnsGame(gameSlotsGrid, selectedGameMode);// 
 
                     if (haveTheNumbersMatched) // if all number in a cols match is true
                     {
-
-                        Ui_Methods.DisplayPlayerWinningBetMessage(); 
-                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(playerMoney);
-                        
-                        quit = true;
+                        Ui_Methods.DisplayPlayerWinningBetMessage();
+                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(PLAYER_MONEY);
                     }
 
                     if (!haveTheNumbersMatched)
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
-                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet); // this will display the players balance after the game has been played
-                     
-                        quit = true;
+                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(PLAYER_MONEY, userBet); // this will display the players balance after the game has been played
+
                     }
                 }
                 /////////////////////// CenterLine game check/////////////////////////////////////////
 
-                if (selectedGameMode == ConstantVars.SELECT_CENTER_LINE_GAME)
+                else if (selectedGameMode == ConstantVars.SELECT_CENTER_LINE_GAME)
                 {
-                    Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid);// this will display the grid
-                    bool CenterArrayMatches = Logic.CenterLineGameCheck(gameSlotsGrid, selectedGameMode); 
+                    bool CenterArrayMatches = Logic.CheckingCenterLineGame(gameSlotsGrid, selectedGameMode);
 
                     if (CenterArrayMatches) // if all the number that match is true
                     {
                         Ui_Methods.DisplayPlayerWinningBetMessage();
-                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(playerMoney); // replaced here because lines of code were repeated
-                       
-                        quit = true;
+                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(PLAYER_MONEY); // replaced here because lines of code were repeated
                     }
 
                     if (!CenterArrayMatches)
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage(); // replaced the lines of code with the method
-                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet);
-                       
-                        quit = true;
+                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(PLAYER_MONEY, userBet);
                     }
                 }
 
                 /////////////////////// TOP RIGHT DIAGONAL check/////////////////////////////////////////
-                if (selectedGameMode == ConstantVars.SELECT_TOP_RIGHT_DIAGONAL_GAME)
+                else if (selectedGameMode == ConstantVars.SELECT_TOP_RIGHT_DIAGONAL_GAME)
                 {
-                    Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid);
-                    bool allDiagonalMatch = Logic.TopRightDiagonalGameCheck(gameSlotsGrid, selectedGameMode);
+                    bool allDiagonalMatch = Logic.CheckingTopRightDiagonalGame(gameSlotsGrid, selectedGameMode);
 
                     if (allDiagonalMatch)
                     {
                         Ui_Methods.DisplayPlayerWinningBetMessage();
-                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(playerMoney);
-                        
-                        quit = true;
+                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(PLAYER_MONEY);
                     }
+                    
                     if (!allDiagonalMatch)
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
-                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet);
-                       
-                        quit = true;
+                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(PLAYER_MONEY, userBet);
                     }
                 }
 
                 ///////////////// Top Left diagonal check/////////////////
-                
-                if (selectedGameMode == ConstantVars.SELECT_TOP_LEFT_DIAGONAL_GAME)
+
+                else if (selectedGameMode == ConstantVars.SELECT_TOP_LEFT_DIAGONAL_GAME)
                 {
-                    Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid);
-                    bool allDiagonalMatch = Logic.TopLeftDiagonalGameCheck(gameSlotsGrid, selectedGameMode); // replaced the lines of code with the method
+                    bool allDiagonalMatch = Logic.CheckingTopLeftDiagonalGame(gameSlotsGrid, selectedGameMode); // replaced the lines of code with the method
 
                     if (allDiagonalMatch)
                     {
                         Ui_Methods.DisplayPlayerWinningBetMessage(); // placed here becasue the method does the same thing 
-                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(playerMoney);
-                      
-                        quit = true;
+                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(PLAYER_MONEY);
                     }
 
                     if (!allDiagonalMatch) // if allDiagonalMatch is false
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();// replaced the lines of code with the method
-                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet);
-                        
-                        quit = true;
+                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(PLAYER_MONEY, userBet);
                     }
                 }
-                
+
                 //////////////////////Top Right diagonal check/////////////////////////
                 if (selectedGameMode == ConstantVars.SELECT_TOP_RIGHT_DIAGONAL_GAME)
                 {
-                    Ui_Methods.DisplayingSlotGameGrid(gameSlotsGrid);
-
-                    bool allRightDiagonalMatch = Logic.TopRightDiagonalGameCheck(gameSlotsGrid, selectedGameMode);// replaced the lines of code with the method
+                    bool allRightDiagonalMatch = Logic.CheckingTopRightDiagonalGame(gameSlotsGrid, selectedGameMode);// replaced the lines of code with the method
 
                     if (allRightDiagonalMatch)
                     {
                         Ui_Methods.DisplayPlayerWinningBetMessage();
-                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(playerMoney);
-                       
-                        quit = true;
+                        Ui_Methods.DisplayingWinningsAndBonusesToTheUser(PLAYER_MONEY);
                     }
 
                     if (!allRightDiagonalMatch)
                     {
                         Ui_Methods.DisplayingTheNumbersDoNotMatchMessage();
-                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet);
-                        
-                        quit = true;
+                        Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(PLAYER_MONEY, userBet);
                     }
                 }
                 ///////////////////////////////////////////////
 
                 Ui_Methods.PromptingUserToClearTheSlotsGrid();
 
-                Ui_Methods.DisplayingPlayerBalanceUpdate(playerMoney); 
-                
+                Ui_Methods.DisplayingPlayerBalanceUpdate(PLAYER_MONEY);
+
                 string DecisionMadeByUser = Ui_Methods.PlayerToContinueSelection(); //stores the user input in a variable so that the Method doesn't repeat itself
 
                 if (DecisionMadeByUser == ConstantVars.PLAYER_TO_CONTINUE_ACCEPT) // when selected the game continues 
                 {
-                    
-                    Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(playerMoney, userBet);
-                   
-                    quit = false;
+                    Ui_Methods.DisplayingTotalDifferenceOfAmountOfMoney(PLAYER_MONEY, userBet);
+
+                    Ui_Methods.PlayerHasContinuedTheGameMessage();
                 }
 
-                if (DecisionMadeByUser == ConstantVars.PLAYER_TO_CONTINUE_DECLINE || playerMoney <= 0) // checks if player has selected n or had bet all of the money
+                if (DecisionMadeByUser == ConstantVars.PLAYER_TO_CONTINUE_DECLINE || PLAYER_MONEY <= 0) // checks if player has selected n or had bet all of the money
                 {
                     quit = true;
-                    Ui_Methods.DisplayingGameOverMessage(playerMoney);
+                    Ui_Methods.DisplayingGameOverMessage(PLAYER_MONEY);
                 }
             }
         }

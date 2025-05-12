@@ -1,18 +1,10 @@
-﻿using SlotMachineRefactored;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SlotMachine
+﻿namespace SlotMachine
 {
     class Logic
     {
         /////-------------------////////////////------------////////////-----------/////////----------////////  -----------------------
-        public static bool RowsGameCheck(int[,] grid, int gameChoice) // in the brackets add an "int" to replace gameSelection
+        public static bool CheckingRowsGame(int[,] grid, int gameChoice)
         {
-            
             if (gameChoice == ConstantVars.SELECT_ROWS_GAME)
             {
                 bool numberHasMatched = false; // bool set to false
@@ -40,7 +32,7 @@ namespace SlotMachine
             return false; // if no match is found
         }
         ////////////////------------////////////-----------/////////----------////////  -----------------------
-        public static bool ColumnsGameCheck(int[,] grid, int gameChoice)
+        public static bool CheckingColumnsGame(int[,] grid, int gameChoice)
         {
             if (gameChoice == ConstantVars.SELECT_COLOUMNS_GAME)
             {
@@ -48,19 +40,19 @@ namespace SlotMachine
                 for (int cols = 0; cols < grid.GetLength(0); cols++) // this loops through the rows
                 {
                     int checkEqualNumbers = grid[0, cols]; // this will check the first element of the columns
-                    bool allMatch = true; // bool set
+                    bool allMatch = true; // bool set to true
 
                     for (int rows = 0; rows < grid.GetLength(1); rows++) // this loops through rows
                     {
                         if (grid[rows, cols] != checkEqualNumbers) // checks if the numbers are not the same
                         {
-                            allMatch = false;
+                            allMatch = false; // if the numbers are not the same then the bool is set to false
                         }
                     }
 
                     if (allMatch)
                     {
-                        return true;
+                        return true; // if match is found
                     }
                 }
             }
@@ -68,7 +60,7 @@ namespace SlotMachine
         }
 
         ////////////////------------////////////-----------/////////----------////////  -----------------------/////////
-        public static bool TopLeftDiagonalGameCheck(int[,] grid, int gameChoice) // logic issue with this 2 sets of if condtions with in logic and the Program
+        public static bool CheckingTopLeftDiagonalGame(int[,] grid, int gameChoice) 
         {
             if (gameChoice == ConstantVars.SELECT_TOP_LEFT_DIAGONAL_GAME)
             {
@@ -93,7 +85,7 @@ namespace SlotMachine
 
         ////////////////------------////////////-----------/////////----------////////  -----------------------
 
-        public static bool TopRightDiagonalGameCheck(int[,] grid, int gameChoice)
+        public static bool CheckingTopRightDiagonalGame(int[,] grid, int gameChoice)
         {
             if (gameChoice == ConstantVars.SELECT_TOP_RIGHT_DIAGONAL_GAME)
             {
@@ -116,7 +108,7 @@ namespace SlotMachine
         }
         ////////////////------------////////////-----------/////////----------////////  -----------------------
 
-        public static bool CenterLineGameCheck(int[,] grid, int gameChoice)
+        public static bool CheckingCenterLineGame(int[,] grid, int gameChoice)
         {
             if (gameChoice == ConstantVars.SELECT_CENTER_LINE_GAME)
             {
@@ -138,12 +130,6 @@ namespace SlotMachine
             }
             return false; // if no match is found
         }
-
-        //public static bool CheckForWin(int[,] grid) // This Method check for a win, If the condition is met it will return true
-        //{
-        //    return RowsGameCheck(grid) || ColumnsGameCheck(grid) || TopLeftDiagonalGameCheck(grid)
-        //            || TopRightDiagonalGameCheck(grid) || CenterLineGameCheck(grid);
-        //}
     }
 }
 
